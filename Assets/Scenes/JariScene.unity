@@ -3100,7 +3100,8 @@ MonoBehaviour:
   WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
   AimingPoint: {fileID: 926084006}
   Gun: {fileID: 1149622270}
-  GunSprite: {fileID: 862059192}
+  GunSprite: {fileID: 1149622272}
+  PlayerSprite: {fileID: 862059192}
   WorldMousePos: {x: 0, y: 0, z: 0}
   Direction: {x: 0, y: 0}
 --- !u!114 &862059197

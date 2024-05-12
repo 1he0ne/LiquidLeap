@@ -9,7 +9,7 @@ public class PlayerShoot : MonoBehaviour
     public Transform AimingPoint;
 
     public GameObject Gun;
-    public SpriteRenderer GunSprite;
+    public SpriteRenderer GunSprite,PlayerSprite;
 
     public Vector3 WorldMousePos;
     public Vector2 Direction;
@@ -31,8 +31,18 @@ public class PlayerShoot : MonoBehaviour
         // TODO: flip gun, when rotated accordingly
         if (Mathf.Abs(angle) > 90)
         {
-            GunSprite.flipX = true;  
+            GunSprite.flipY = true;
+            PlayerSprite.flipX = true;
+          
         }
+        if ( Mathf.Abs(angle) < 90 )
+        {
+            GunSprite.flipY = false;
+            PlayerSprite.flipX = false;
+            
+        }
+
+        Debug.Log(angle);
 
         if ( Input.GetMouseButton(0) )
         {
@@ -48,5 +58,6 @@ public class PlayerShoot : MonoBehaviour
 
         // Adds velocity to the bullet
         bullet.GetComponent<Rigidbody2D>().velocity = Direction * Force;
+        Destroy(bullet.gameObject, 5f);
     }
 }

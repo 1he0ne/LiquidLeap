@@ -25,6 +25,6 @@ public class PlayerShoot : MonoBehaviour
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
         bulletRb.velocity = transform.right * Force;
 
-        Destroy( bullet, 1f );
+        Destroy( bullet, 15f );
     }
 }

@@ -6,7 +6,6 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform PlayerPosition;
     public Vector3 Offset;
-    public Vector2 CamOffSet;
     public Camera Camera;
     void Update()
     {

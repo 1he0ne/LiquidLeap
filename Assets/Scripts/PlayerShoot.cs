@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
@@ -17,14 +18,14 @@ public class PlayerShoot : MonoBehaviour
 
     void Shoot()
     {
-        //add force/velocity
-        //Make it instantiate bullet where mouse position is currently
-        //Damage enemy function
-        //Destroy object after certain seconds  
-        GameObject bullet = Instantiate(WaterPrefab, AimingPoint.position, AimingPoint.rotation);
-        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-        bulletRb.velocity = transform.right * Force;
+        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Destroy( bullet, 15f );
+        Vector2 direction = (Vector2)((worldMousePos - transform.position)); direction.Normalize();
+
+        // Creates the bullet locally
+        GameObject bullet = Instantiate(WaterPrefab,AimingPoint.position + (Vector3)(direction * 0.5f),Quaternion.identity);
+
+        // Adds velocity to the bullet
+        bullet.GetComponent<Rigidbody2D>().velocity = direction * Force;
     }
 }

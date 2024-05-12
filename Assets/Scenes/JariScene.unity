@@ -3083,7 +3083,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.39353353}
   serializedVersion: 2
-  m_Radius: 0.32019216
+  m_Radius: 0.3
 --- !u!114 &862059196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3099,6 +3099,9 @@ MonoBehaviour:
   Force: 10.7
   WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
   AimingPoint: {fileID: 926084006}
+  Gun: {fileID: 1149622270}
+  WorldMousePos: {x: 0, y: 0, z: 0}
+  Direction: {x: 0, y: 0}
 --- !u!114 &862059197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3159,7 +3162,7 @@ Transform:
   m_GameObject: {fileID: 926084005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.19, y: -0.49, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3191,7 +3194,7 @@ Transform:
   m_GameObject: {fileID: 1149622270}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.51, y: -0.42, z: 0}
+  m_LocalPosition: {x: 0, y: -0.285, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

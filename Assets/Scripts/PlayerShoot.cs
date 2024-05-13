@@ -13,9 +13,15 @@ public class PlayerShoot : MonoBehaviour
 
     public Vector3 WorldMousePos;
     public Vector2 Direction;
+    public float shootTimer = 0f;
+    public bool canShoot = true;
+    public float shootDuration = 1f; // Time in seconds player can shoot continuously
+    public float shootCooldown = 1f;
 
     void Update()
     {
+       
+
         WorldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Direction = (Vector2)(WorldMousePos - transform.position).normalized;
 
@@ -41,12 +47,29 @@ public class PlayerShoot : MonoBehaviour
             PlayerSprite.flipX = false;
             
         }
-
-        Debug.Log(angle);
-
-        if ( Input.GetMouseButton(0) )
+        if ( canShoot )
         {
-            Shoot();
+            // Check if the mouse button is pressed and the shoot duration hasn't elapsed
+            if ( Input.GetMouseButton(0) && shootTimer <= shootDuration )
+            {
+                Shoot();
+                shootTimer += Time.deltaTime;
+            }
+            else
+            {
+                canShoot = false;
+                shootTimer = 0f;
+            }
+        }
+        else
+        {
+            // Player can't shoot, start cooldown
+            shootTimer += Time.deltaTime;
+            if ( shootTimer >= shootCooldown )
+            {
+                canShoot = true;
+                shootTimer = 0f;
+            }
         }
     }
 

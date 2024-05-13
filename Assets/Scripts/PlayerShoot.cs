@@ -13,16 +13,22 @@ public class PlayerShoot : MonoBehaviour
 
     public Transform AimingPoint;
 
-    public GameObject Gun;
-    public SpriteRenderer GunSprite,PlayerSprite;
+    public SpriteRenderer PlayerSprite;
 
-    public Vector2 WorldMousePos;
-    public Vector2 AimDirectionNorm;
+    public GameObject Gun;
+    private SpriteRenderer GunSprite;
+
+    private Vector2 WorldMousePos;
+    private Vector2 AimPos;
+    private Vector2 AimDirectionNorm;
 
     private float WaterDestroyTime = 5.0f;
     private float IceDestroyTime = 5.0f;
 
-    public Vector2 AimPos;
+    private void Start()
+    {
+        GunSprite = Gun.GetComponent<SpriteRenderer>();
+    }
 
     void Update()
     {

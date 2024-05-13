@@ -3102,7 +3102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rb: {fileID: 862059190}
   MovementSpeed: 4
-  JumpForce: 1
+  JumpForce: 3
   SpriteRenderer: {fileID: 862059192}
   GroundCheck1: {fileID: 1716404281}
   GroundLayer:
@@ -3126,12 +3126,19 @@ MonoBehaviour:
   Force: 10.7
   WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
   IcePrefab: {fileID: 7361224163324081676, guid: 2dadcac2da85b8d40869d87bfe932204, type: 3}
+  FreezeRayStopLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  FreezeRayLayers:
+    serializedVersion: 2
+    m_Bits: 256
   AimingPoint: {fileID: 926084006}
   Gun: {fileID: 1149622270}
   GunSprite: {fileID: 1149622272}
   PlayerSprite: {fileID: 862059192}
-  WorldMousePos: {x: 0, y: 0, z: 0}
-  Direction: {x: 0, y: 0}
+  WorldMousePos: {x: 0, y: 0}
+  AimDirectionNorm: {x: 0, y: 0}
+  AimPos: {x: 0, y: 0}
 --- !u!114 &862059197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3227,7 +3234,7 @@ Transform:
   m_GameObject: {fileID: 926084005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

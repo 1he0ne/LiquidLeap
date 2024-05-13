@@ -90,7 +90,7 @@ public class PlayerShoot : MonoBehaviour
 
         // stop ray at wall and measure length
         var raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxFreezeDist, FreezeRayStopLayers);
-        if (raycastHit)
+        if ( raycastHit )
         {
             maxFreezeDist = (AimPos - (Vector2)raycastHit.transform.position).magnitude;
             Debug.Log(maxFreezeDist);
@@ -106,6 +106,8 @@ public class PlayerShoot : MonoBehaviour
 
             var tempIce = Instantiate(IcePrefab, hit.transform.position, hit.transform.rotation);
             Destroy(hit.transform.gameObject);
+
+            // TODO: maybe turn ice back to liquid after 5 secs?
             Destroy(tempIce, IceDestroyTime);
         }
     }

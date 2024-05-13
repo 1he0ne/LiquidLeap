@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Frozen
+  m_Name: IceMat
   m_Shader: {fileID: -6465566751694194690, guid: 68ff3ea868888c447aaf848fd65019bd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
-        m_Texture: {fileID: 8400000, guid: ea024a461c8168245a9c2bbc6289cc7c, type: 2}
+        m_Texture: {fileID: 8400000, guid: a03420311f540404691b4b2f4642422c, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

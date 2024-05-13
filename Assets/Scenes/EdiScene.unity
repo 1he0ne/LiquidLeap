@@ -3128,7 +3128,7 @@ MonoBehaviour:
   IcePrefab: {fileID: 7361224163324081676, guid: 2dadcac2da85b8d40869d87bfe932204, type: 3}
   FreezeRayStopLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   FreezeRayLayers:
     serializedVersion: 2
     m_Bits: 256

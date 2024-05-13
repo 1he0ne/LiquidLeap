@@ -14,24 +14,23 @@ public class EnemyAI : MonoBehaviour
         EnemyRb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Patrol();
     }
 
     void Patrol()
-    { 
+    {
         EnemyRb.velocity = Vector2.right * Speed * Time.deltaTime;
         IsGrounded = Physics2D.OverlapCircle(GroundCheckEnemy.transform.position, CircleRadius, GroundLayer);
 
         if ( !IsGrounded && FacingRight )
         {
-          Flip();
+            Flip();
         }
-        else if (!IsGrounded && !FacingRight )
+        else if ( !IsGrounded && !FacingRight )
         {
-          Flip();
+            Flip();
         }
     }
 
@@ -50,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.tag == "Liquid" )
+        if ( collision.collider.gameObject.tag == "Liquid" )
         {
             Debug.Log("Hit");
         }

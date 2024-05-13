@@ -7,8 +7,6 @@ TagManager:
   - Ladder
   - Platform
   - Static
-  - Liquid
-  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,7 +17,7 @@ TagManager:
   - Ground
   - Bullet
   - Fluids
-  - Enemy
+  - 
   - 
   - 
   - 

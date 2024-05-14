@@ -3246,10 +3246,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rb: {fileID: 862059190}
   MovementSpeed: 4
-  JumpForce: 4
+  JumpForce: 12
   SpriteRenderer: {fileID: 862059192}
-  GroundCheck1: {fileID: 1716404281}
-  GroundLayer:
+  GroundCheck: {fileID: 1716404281}
+  GroundLayers:
     serializedVersion: 2
     m_Bits: 576
   Jumping: 0
@@ -3351,7 +3351,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
+  m_Offset: {x: 0, y: -0.21}
   m_Size: {x: 0.64, y: 0.87}
   m_Direction: 0
 --- !u!1 &926084005
@@ -4503,7 +4503,7 @@ TilemapCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0, y: -0.12}
+  m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
@@ -4516,7 +4516,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1716404281}
-  - component: {fileID: 1716404282}
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -4533,33 +4532,12 @@ Transform:
   m_GameObject: {fileID: 1716404280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.68, z: 0}
+  m_LocalPosition: {x: 0, y: -0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 862059193}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1716404282
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1716404280}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.40099788, y: 0.020607531, z: 1}
-  m_Center: {x: -0.01, y: 0.028928548, z: 0}
 --- !u!1 &1938277913
 GameObject:
   m_ObjectHideFlags: 0

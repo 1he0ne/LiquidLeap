@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
@@ -117,7 +116,7 @@ public class PlayerShoot : MonoBehaviour
         float minRayDist = 0.75f;
 
         // stop ray at e.g. walls and determine the new max length up to that wall
-        var raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxRayDist, rayStopLayers);
+        RaycastHit2D raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxRayDist, rayStopLayers);
         if (raycastHit)
         {
             maxRayDist = (AimPos - (Vector2)raycastHit.transform.position).magnitude;
@@ -126,6 +125,7 @@ public class PlayerShoot : MonoBehaviour
 
         // TODO: make it a "real" line, or some way for the player to see what's happening
         Debug.DrawLine(AimPos + (AimDirectionNorm * minRayDist), AimPos + (AimDirectionNorm * 10.0f), rayColor);
+
 
         // cast ray again, this time, hit the particle layer
         var waterHits = Physics2D.RaycastAll(AimPos, AimDirectionNorm, maxRayDist, rayParticleLayers);

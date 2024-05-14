@@ -2855,7 +2855,7 @@ GameObject:
   - component: {fileID: 862059197}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4607,7 +4607,7 @@ TilemapCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0, y: -0.12}
+  m_Offset: {x: 0, y: -0.03}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
@@ -4825,9 +4825,21 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1137777150239181073, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}
+      propertyPath: Radius
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137777150239181073, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}
       propertyPath: EnemyRb
       value: 
       objectReference: {fileID: 1028162156}
+    - target: {fileID: 1137777150239181073, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}
+      propertyPath: PlayerInSight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137777150239181073, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}
+      propertyPath: PlayerPosition
+      value: 
+      objectReference: {fileID: 862059193}
     - target: {fileID: 6562729939875591093, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}
       propertyPath: m_Mass
       value: 10000

@@ -4,11 +4,14 @@ public class EnemyAI : MonoBehaviour
 {
     public float Speed;
     public float CircleRadius;
+    public float Radius;
     public Rigidbody2D EnemyRb;
     public GameObject GroundCheckEnemy;
+    public Transform PlayerPosition;
     public LayerMask GroundLayer;
     public bool IsGrounded;
     public bool FacingRight;
+    public bool PlayerInSight = false;
     void Start()
     {
         EnemyRb = GetComponent<Rigidbody2D>();
@@ -16,11 +19,22 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        Patrol();
+        var raycastHit = Physics2D.Raycast(transform.position, Vector2.left, Radius);
+        if ( raycastHit )
+        {
+           
+            Debug.Log("PlayerSighted");
+        }
+
+
+        //Patrol();
+
+
     }
 
     void Patrol()
     {
+        PlayerInSight = false;
         EnemyRb.velocity = Vector2.right * Speed * Time.deltaTime;
         IsGrounded = Physics2D.OverlapCircle(GroundCheckEnemy.transform.position, CircleRadius, GroundLayer);
 
@@ -45,6 +59,7 @@ public class EnemyAI : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(GroundCheckEnemy.transform.position, CircleRadius);
+        Gizmos.DrawLine(transform.position, Vector2.left * Radius);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -54,4 +69,10 @@ public class EnemyAI : MonoBehaviour
             Debug.Log("Hit");
         }
     }
+
+    void AttackPlayer()
+    {
+        
+    }
 }
+

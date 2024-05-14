@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D Rb;
+    private Rigidbody2D Rb;
+    private SpriteRenderer SpriteRenderer;
+
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
-    [SerializeField] private SpriteRenderer SpriteRenderer;
-    public Transform GroundCheck; 
-    public LayerMask GroundLayers;
+    [SerializeField] private LayerMask GroundLayers;
+
+    [SerializeField] private Transform GroundCheck1;
+    [SerializeField] private Transform GroundCheck2;
 
     public bool Jumping = false;
     public bool isGrounded = false;
@@ -15,10 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     private static int JumpCooldown = 0;
 
-    float Move;
+    private float MoveDir;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -28,22 +32,22 @@ public class PlayerMovement : MonoBehaviour
 
         if ( Input.GetKey(KeyCode.D) )
         {
-            Move = Input.GetAxis("Horizontal");
-            Rb.velocity = new Vector2(Move * MovementSpeed, Rb.velocity.y);
+            MoveDir = Input.GetAxis("Horizontal");
+            Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
             SpriteRenderer.flipX = false;
         }
         
         if ( Input.GetKey(KeyCode.A) )
         {
-            Move = Input.GetAxis("Horizontal");
-            Rb.velocity = new Vector2(Move * MovementSpeed, Rb.velocity.y);
+            MoveDir = Input.GetAxis("Horizontal");
+            Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
             SpriteRenderer.flipX = true;
            
         }
 
-        isGrounded = Physics2D.Raycast(GroundCheck.position, -transform.up, 0.15f, GroundLayers);
+        isGrounded = Physics2D.Raycast(GroundCheck1.position, -transform.up, 0.1f, GroundLayers) || Physics2D.Raycast(GroundCheck2.position, -transform.up, 0.1f, GroundLayers);
 
         if (Input.GetKey(KeyCode.Space) && isGrounded && JumpCooldown == 0)
         {

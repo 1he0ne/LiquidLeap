@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded = false;
     public bool Moving = false;
  
-           float Move;
+    float Move;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();

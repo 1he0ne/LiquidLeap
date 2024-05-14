@@ -22,8 +22,6 @@ public class PlayerShoot : MonoBehaviour
     private Vector2 AimPos;
     private Vector2 AimDirectionNorm;
 
-    private float WaterDestroyTime = 5.0f;
-    private float IceDestroyTime = 5.0f;
 
     private void Start()
     {
@@ -75,7 +73,7 @@ public class PlayerShoot : MonoBehaviour
 
         // Adds velocity to the bullet
         waterParticle.GetComponent<Rigidbody2D>().velocity = AimDirectionNorm * Force;
-        Destroy(waterParticle.gameObject, WaterDestroyTime);
+        Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
     }
 
     void FreezeRay()
@@ -108,7 +106,7 @@ public class PlayerShoot : MonoBehaviour
             Destroy(hit.transform.gameObject);
 
             // TODO: maybe turn ice back to liquid after 5 secs?
-            Destroy(tempIce, IceDestroyTime);
+            Destroy(tempIce, StaticConstants.IceDestroyTime);
         }
     }
 }

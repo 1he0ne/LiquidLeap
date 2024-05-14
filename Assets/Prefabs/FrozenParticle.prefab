@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2706518923455265396}
   - component: {fileID: 1691977283956563965}
   - component: {fileID: 5545957191940918942}
+  - component: {fileID: 2989244359904468681}
   m_Layer: 9
   m_Name: FrozenParticle
   m_TagString: Untagged
@@ -148,3 +149,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.004044215}
   serializedVersion: 2
   m_Radius: 0.07411766
+--- !u!114 &2989244359904468681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361224163324081676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11fc1e39c11edb740880ebd8c8910586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}

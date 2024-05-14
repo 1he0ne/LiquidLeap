@@ -6,13 +6,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
     [SerializeField] private SpriteRenderer SpriteRenderer;
-    public Transform GroundCheck1; 
-    public LayerMask GroundLayer;
+    public Transform GroundCheck; 
+    public LayerMask GroundLayers;
 
     public bool Jumping = false;
     public bool isGrounded = false;
     public bool Moving = false;
- 
+
+    private static int JumpCooldown = 0;
+
     float Move;
     void Start()
     {
@@ -22,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(GroundCheck1.position, 0.15f, GroundLayer); 
-        
+        Moving = false;
+
         if ( Input.GetKey(KeyCode.D) )
         {
             Move = Input.GetAxis("Horizontal");
@@ -40,20 +42,18 @@ public class PlayerMovement : MonoBehaviour
             SpriteRenderer.flipX = true;
            
         }
-        if ( Input.GetKeyUp(KeyCode.D) )
-        {
-            Moving = false;
-        }
-        if ( Input.GetKeyUp(KeyCode.A) )
-        {
-            Moving = false;
-        }
 
-        if ( Input.GetKey(KeyCode.Space) && isGrounded )
+        isGrounded = Physics2D.Raycast(GroundCheck.position, -transform.up, 0.15f, GroundLayers);
+
+        if (Input.GetKey(KeyCode.Space) && isGrounded && JumpCooldown == 0)
         {
-             Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-             Moving = false;
-             
+            JumpCooldown += 3;
+            Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+            Moving = false;
+        }
+        else if (isGrounded)
+        {
+            JumpCooldown = Mathf.Max(JumpCooldown - 1, 0);
         }
     }  
 }

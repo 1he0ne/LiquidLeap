@@ -377,7 +377,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: b7f88abd76973ab499703769e147f3d8, type: 2}
   m_TargetDisplay: 0
@@ -535,6 +535,150 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -44.884}
+--- !u!1 &572497825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 572497829}
+  - component: {fileID: 572497828}
+  - component: {fileID: 572497827}
+  - component: {fileID: 572497826}
+  m_Layer: 0
+  m_Name: SteamCamera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &572497826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572497825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e39af4d55c3015469a96eb5c5427688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPosition: {fileID: 862059193}
+  Offset: {x: 0, y: 0, z: -13}
+  Camera: {fileID: 572497828}
+--- !u!114 &572497827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572497825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!20 &572497828
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572497825}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 20
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: 1b19404decefea84daba78430149b167, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &572497829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572497825}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.1800003, y: 2.39, z: -13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &683528512
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,7 +3246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rb: {fileID: 862059190}
   MovementSpeed: 4
-  JumpForce: 3
+  JumpForce: 4
   SpriteRenderer: {fileID: 862059192}
   GroundCheck1: {fileID: 1716404281}
   GroundLayer:
@@ -3126,19 +3270,20 @@ MonoBehaviour:
   Force: 10.7
   WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
   IcePrefab: {fileID: 7361224163324081676, guid: 2dadcac2da85b8d40869d87bfe932204, type: 3}
-  FreezeRayStopLayers:
+  SteamPrefab: {fileID: 7361224163324081676, guid: d62b7e03c5d299d4bb407cdcdd5e3ac1, type: 3}
+  RayStopLayers:
     serializedVersion: 2
     m_Bits: 64
-  FreezeRayLayers:
+  LiquidParticleLayers:
     serializedVersion: 2
     m_Bits: 256
   AimingPoint: {fileID: 926084006}
-  Gun: {fileID: 1149622270}
-  GunSprite: {fileID: 1149622272}
   PlayerSprite: {fileID: 862059192}
-  WorldMousePos: {x: 0, y: 0}
-  AimDirectionNorm: {x: 0, y: 0}
-  AimPos: {x: 0, y: 0}
+  Gun: {fileID: 1149622270}
+  shootTimer: 0
+  canShoot: 1
+  shootDuration: 1
+  shootCooldown: 1
 --- !u!114 &862059197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3569,6 +3714,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 56522de24fd7336408db0c8077563c35, type: 2}
   - {fileID: 2100000, guid: d6bb0db85cd82c145b327ecade311979, type: 2}
+  - {fileID: 2100000, guid: 20082e8bd6980324893e08b9be893bd4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4564,6 +4710,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1403351925}
   - {fileID: 1938277917}
+  - {fileID: 572497829}
   - {fileID: 255727200}
   - {fileID: 862059193}
   - {fileID: 1451111816}

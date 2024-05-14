@@ -104,7 +104,7 @@ public class PlayerShoot : MonoBehaviour
     void Shoot()
     {
         // Creates the water locally
-        GameObject waterParticle = Instantiate(WaterPrefab, AimingPoint.position + (Vector3)(AimDirectionNorm * 0.5f), Quaternion.identity);
+        GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.5f), Quaternion.identity);
 
         // Adds velocity to the bullet
         waterParticle.GetComponent<Rigidbody2D>().velocity = AimDirectionNorm * Force;
@@ -117,21 +117,20 @@ public class PlayerShoot : MonoBehaviour
         float minRayDist = 0.75f;
 
         // stop ray at e.g. walls and determine the new max length up to that wall
-        var raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxRayDist, RayStopLayers);
+        var raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxRayDist, rayStopLayers);
         if (raycastHit)
         {
             maxRayDist = (AimPos - (Vector2)raycastHit.transform.position).magnitude;
         }
 
 
-
         // TODO: make it a "real" line, or some way for the player to see what's happening
         Debug.DrawLine(AimPos + (AimDirectionNorm * minRayDist), AimPos + (AimDirectionNorm * 10.0f), rayColor);
 
         // cast ray again, this time, hit the particle layer
-        var waterHits = Physics2D.RaycastAll(AimPos, AimDirectionNorm, maxRayDist, LiquidParticleLayers);
+        var waterHits = Physics2D.RaycastAll(AimPos, AimDirectionNorm, maxRayDist, rayParticleLayers);
 
-        List<RaycastHit2D> particlesHit = new List<RaycastHit2D>();
+        List<RaycastHit2D> particlesHit = new();
 
         foreach (RaycastHit2D hit in waterHits)
         {

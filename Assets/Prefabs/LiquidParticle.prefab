@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2706518923455265396}
   - component: {fileID: 1691977283956563965}
   - component: {fileID: 5545957191940918942}
+  - component: {fileID: -1446263789995603142}
   m_Layer: 8
   m_Name: LiquidParticle
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,10 +126,10 @@ CircleCollider2D:
   m_Material: {fileID: 6200000, guid: fb0afc7a3aa9ae243b8749ee4de63965, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 510
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -148,3 +149,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.004044215}
   serializedVersion: 2
   m_Radius: 0.07411766
+--- !u!114 &-1446263789995603142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7361224163324081676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca91823d3a0ba8342b62a16f1c1d831e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -14,6 +14,7 @@ public class PlayerShoot : MonoBehaviour
 
     public LayerMask RayStopLayers;
     public LayerMask LiquidParticleLayers;
+    public LayerMask DeviceLayer;
 
 
     public Transform AimingPoint;
@@ -163,6 +164,21 @@ public class PlayerShoot : MonoBehaviour
         Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
     }
 
+    private double getDistanceToWall()
+    {
+        float maxRayDist = 5.0f;
+        float minRayDist = 0.75f;
+
+        var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
+        // stop ray at e.g. walls and determine the new max length up to that wall
+        RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, RayStopLayers);
+        if (raycastHit)
+        {
+            return raycastHit.distance;
+            // Debug.Log(maxRayDist);
+        }
+        return maxRayDist;
+    }
     private List<RaycastHit2D> GetParticlesInRay(LayerMask rayStopLayers, LayerMask rayParticleLayers, Color rayColor)
     {
         float maxRayDist = 5.0f;
@@ -203,6 +219,12 @@ public class PlayerShoot : MonoBehaviour
 
             Destroy(tempIce, StaticConstants.IceMeltTime);
         }
+
+        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.blue)) //  11 is devices
+        {
+            Debug.Log("hit machine with freeze");
+            hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.WATER;
+        }
     }
 
     void HeatRay()
@@ -212,7 +234,14 @@ public class PlayerShoot : MonoBehaviour
             var tempSteam = Instantiate(SteamPrefab, hit.transform.position, hit.transform.rotation);
             Destroy(hit.transform.gameObject);
 
+            tempSteam.GetComponent<RevertToWater>().turnToWater = true;
             Destroy(tempSteam, StaticConstants.SteamCondenseTime);
+        }
+
+        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.red)) //  11 is devices
+        {
+            Debug.Log("hit machine with heat");
+            hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.STEAM;
         }
     }
 }

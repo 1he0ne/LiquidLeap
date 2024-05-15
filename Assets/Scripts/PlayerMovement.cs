@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D Rb;
-    private SpriteRenderer SpriteRenderer;
+    [SerializeField] private SpriteRenderer PlayerRenderer;
+    [SerializeField] private SpriteRenderer ParachuteRenderer;
 
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
@@ -12,9 +13,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform GroundCheck1;
     [SerializeField] private Transform GroundCheck2;
 
+
     public bool isGrounded = false;
     public bool Moving = false;
-    private bool isParachuteActive = false;
+    [SerializeField] private bool isParachuteActive = false;
 
     private float MoveDir;
 
@@ -24,17 +26,27 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource WingFlapSound;
 
     private const float parachuteCooldownMax = 1.0f;
-    private float parachuteCooldown = 0;
+    private float parachuteCooldown = 0.0f;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();
 
         var AudioSource = GetComponents<AudioSource>();
         JumpSound = AudioSource[0];
         WalkSound = AudioSource[1];
         LandFloorSound = AudioSource[2];
         WingFlapSound = AudioSource[3];
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isParachuteActive && collision.gameObject.layer == 10) // steam is layer 10
+        {
+            // oof make sure we only ever trigger on steam!
+            Destroy(collision.gameObject);
+            Rb.AddForce(new Vector2(0, JumpForce / 5.0f), ForceMode2D.Impulse);
+
+        }
     }
 
     // Update is called once per frame
@@ -47,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
             MoveDir = Input.GetAxis("Horizontal");
             Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
-            SpriteRenderer.flipX = false;
+            PlayerRenderer.flipX = false;
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -55,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             MoveDir = Input.GetAxis("Horizontal");
             Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
-            SpriteRenderer.flipX = true;
+            PlayerRenderer.flipX = true;
 
         }
 
@@ -74,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isGrounded)
             {
+                parachuteCooldown = parachuteCooldownMax;
                 if (Rb.velocity.y <= 0.01)
                 {
                     Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
@@ -91,15 +104,21 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            isParachuteActive = false;
             parachuteCooldown = parachuteCooldownMax;
+
         }
 
-        isParachuteActive = parachuteCooldown <= 0;
+        isParachuteActive = !isGrounded && parachuteCooldown <= 0;
+        ParachuteRenderer.enabled = isParachuteActive;
+
+
+        Rb.gravityScale = isParachuteActive ? 0.5f : 1.0f;
+
         if (!wasParachuteActive && isParachuteActive)
         {
             WalkSound.pitch = Random.Range(0.95f, 1.05f);
             WingFlapSound.Play();
+            Rb.velocity = new Vector2(Rb.velocity.x, JumpForce / 5.0f); // add a small upward boost
         }
 
 

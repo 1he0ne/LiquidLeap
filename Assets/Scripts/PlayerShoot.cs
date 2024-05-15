@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -105,17 +106,12 @@ public class PlayerShoot : MonoBehaviour
         Gun.transform.position = targetPosition;
         Gun.transform.rotation = targetRotation;
 
-        if (Mathf.Abs(angle) > 90)
-        {
-            GunSprite.flipY = true;
-            PlayerSprite.flipX = true;
-        }
+        bool flipSprites = Mathf.Abs(angle) > 90;
+    
+        GunSprite.flipY = flipSprites;
+        PlayerSprite.flipX = flipSprites;
+        
 
-        if (Mathf.Abs(angle) < 90)
-        {
-            GunSprite.flipY = false;
-            PlayerSprite.flipX = false;
-        }
 
         if (Input.GetMouseButton(0))
         {
@@ -162,33 +158,31 @@ public class PlayerShoot : MonoBehaviour
 
     private List<RaycastHit2D> GetParticlesInRay(LayerMask rayStopLayers, LayerMask rayParticleLayers, Color rayColor)
     {
-        float maxRayDist = 100.0f;
+        float maxRayDist = 5.0f;
         float minRayDist = 0.75f;
 
+        var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
+
         // stop ray at e.g. walls and determine the new max length up to that wall
-        RaycastHit2D raycastHit = Physics2D.Raycast(AimPos, AimDirectionNorm, maxRayDist, rayStopLayers);
+        RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, rayStopLayers);
         if (raycastHit)
         {
-            maxRayDist = (AimPos - (Vector2)raycastHit.transform.position).magnitude;
+            maxRayDist = raycastHit.distance;
+            // Debug.Log(maxRayDist);
         }
 
-
         // TODO: make it a "real" line, or some way for the player to see what's happening
-        Debug.DrawLine(AimPos + (AimDirectionNorm * minRayDist), AimPos + (AimDirectionNorm * 10.0f), rayColor);
+        Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
 
 
         // cast ray again, this time, hit the particle layer
-        var waterHits = Physics2D.RaycastAll(AimPos, AimDirectionNorm, maxRayDist, rayParticleLayers);
+        var waterHits = Physics2D.RaycastAll(rayStartPos, AimDirectionNorm, maxRayDist, rayParticleLayers);
 
         List<RaycastHit2D> particlesHit = new();
 
         foreach (RaycastHit2D hit in waterHits)
         {
-            // skip particles that are very close
-            if (hit.distance >= minRayDist)
-            {
-                particlesHit.Add(hit);
-            }
+            particlesHit.Add(hit);
         }
 
         return particlesHit;

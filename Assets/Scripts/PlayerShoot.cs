@@ -1,11 +1,13 @@
-using System;
 using System.Collections.Generic;
-
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private float Force;
+    [SerializeField] private TextMeshProUGUI GunFillUI;
+
     public GameObject WaterPrefab;
     public GameObject IcePrefab;
     public GameObject SteamPrefab;
@@ -26,11 +28,13 @@ public class PlayerShoot : MonoBehaviour
     private Vector2 AimDirectionNorm;
 
 
-    public float shootWaterTankMax = 36; // max tank fill state
+    public const float shootWaterTankMax = 36; // max tank fill state
     public float shootCooldownMax = 0.02f; // time between individual bullets
 
-    private float shootWaterTank = 40; // current fill state
+    private float shootWaterTank = shootWaterTankMax; // current fill state
     private float shootCooldown = 0f; // time until the next individual bullet
+
+    private float waterFillPercent;
 
     private AudioSource WaterHoseSFX;
     private AudioSource WaterPumpSFX;
@@ -49,6 +53,8 @@ public class PlayerShoot : MonoBehaviour
 
     private void RechargeGun()
     {
+        waterFillPercent = shootWaterTank / shootWaterTankMax;
+
         // recharge slowly if not at max
         if (shootWaterTank < shootWaterTankMax)
         {
@@ -66,7 +72,7 @@ public class PlayerShoot : MonoBehaviour
                 {
                     WaterPumpSFX.Stop();
                 }
-                WaterPumpSFX.volume = (shootWaterTank / shootWaterTankMax);
+                WaterPumpSFX.volume = waterFillPercent;
             }
             else
             {
@@ -87,6 +93,8 @@ public class PlayerShoot : MonoBehaviour
 
         // tick down the time for the next bullet to be shot
         shootCooldown -= Time.deltaTime;
+
+        GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent*100);
     }
 
     void Update()
@@ -146,10 +154,9 @@ public class PlayerShoot : MonoBehaviour
         var waterVelocity = AimDirectionNorm * Force;
 
         // Reduce velocity as tank depletes
-        var fillFactor = shootWaterTank / shootWaterTankMax;
-        if (fillFactor < 0.9f)
+        if (waterFillPercent < 0.9f)
         {
-            waterVelocity *= fillFactor;
+            waterVelocity *= waterFillPercent;
         }
 
         waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;

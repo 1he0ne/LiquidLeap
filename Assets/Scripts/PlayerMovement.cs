@@ -4,7 +4,8 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D Rb;
     [SerializeField] private SpriteRenderer PlayerRenderer;
-    [SerializeField] private SpriteRenderer ParachuteRenderer;
+    [SerializeField] private SpriteRenderer ParachuteRendererL;
+    [SerializeField] private SpriteRenderer ParachuteRendererR;
 
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
@@ -109,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isParachuteActive = !isGrounded && parachuteCooldown <= 0;
-        ParachuteRenderer.enabled = isParachuteActive;
+        ParachuteRendererL.enabled = ParachuteRendererR.enabled = isParachuteActive;
 
 
         Rb.gravityScale = isParachuteActive ? 0.5f : 1.0f;

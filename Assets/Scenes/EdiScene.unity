@@ -4472,10 +4472,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4666908705655931285, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
-      propertyPath: GroundLayers.m_Bits
-      value: 576
-      objectReference: {fileID: 0}
     - target: {fileID: 6122347525163194706, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
       propertyPath: GunFillUI
       value: 
@@ -4538,17 +4534,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2545364201831846589, guid: 62cdfdeeb727f264aa5a9ad5e19380cd, type: 3}
-      propertyPath: state
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3856022068678428784, guid: 62cdfdeeb727f264aa5a9ad5e19380cd, type: 3}
       propertyPath: m_Name
       value: SteamVent
-      objectReference: {fileID: 0}
-    - target: {fileID: 3856022068678428784, guid: 62cdfdeeb727f264aa5a9ad5e19380cd, type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5543072236936488974, guid: 62cdfdeeb727f264aa5a9ad5e19380cd, type: 3}
       propertyPath: m_LocalPosition.x

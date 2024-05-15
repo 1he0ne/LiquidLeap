@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -23,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
 
     public GameObject Gun;
     private SpriteRenderer GunSprite;
+    // private LineRenderer RayGraphics;
 
     private Vector2 WorldMousePos;
     private Vector2 AimPos;
@@ -41,6 +41,7 @@ public class PlayerShoot : MonoBehaviour
     private AudioSource WaterPumpSFX;
 
 
+
     private void Start()
     {
         GunSprite = Gun.GetComponent<SpriteRenderer>();
@@ -48,6 +49,10 @@ public class PlayerShoot : MonoBehaviour
 
         WaterHoseSFX = GunAudioSources[0];
         WaterPumpSFX = GunAudioSources[1];
+
+        // RayGraphics = GetComponent<LineRenderer>();
+        // RayGraphics.startWidth = 0.07f;
+        // RayGraphics.endWidth = 0.05f;
 
     }
 
@@ -94,7 +99,10 @@ public class PlayerShoot : MonoBehaviour
         // tick down the time for the next bullet to be shot
         shootCooldown -= Time.deltaTime;
 
-        GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent * 100);
+        if (GunFillUI)
+        {
+            GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent * 100);
+        }
     }
 
     void Update()
@@ -126,11 +134,13 @@ public class PlayerShoot : MonoBehaviour
             Shoot();
         }
 
+        // TODO: add cooldown for freeze
         if (Input.GetMouseButton(1))
         {
             FreezeRay();
         }
 
+        // TODO: add cooldown for heat
         if (Input.GetMouseButton(2))
         {
             HeatRay();
@@ -193,7 +203,9 @@ public class PlayerShoot : MonoBehaviour
         }
 
         // TODO: make it a "real" line, or some way for the player to see what's happening
-        Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
+        //Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
+        //RayGraphics.SetPositions(new Vector3[]{ rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist)});
+
 
 
         // cast ray again, this time, hit the particle layer

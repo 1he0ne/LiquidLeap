@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1260082107016010455}
   - component: {fileID: 2545364201831846589}
   - component: {fileID: 5030347687275520791}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SteamVent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steamParticle: {fileID: 7361224163324081676, guid: d62b7e03c5d299d4bb407cdcdd5e3ac1, type: 3}
   waterParticle: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
-  state: 0
+  state: 2
 --- !u!61 &5030347687275520791
 BoxCollider2D:
   m_ObjectHideFlags: 0

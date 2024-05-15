@@ -4474,7 +4474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4666908705655931285, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
       propertyPath: GroundLayers.m_Bits
-      value: 2624
+      value: 576
       objectReference: {fileID: 0}
     - target: {fileID: 6122347525163194706, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
       propertyPath: GunFillUI

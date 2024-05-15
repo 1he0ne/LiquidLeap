@@ -14,12 +14,17 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded = false;
     public bool Moving = false;
+    private bool isParachuteActive = false;
 
     private float MoveDir;
 
     private AudioSource JumpSound;
     private AudioSource WalkSound;
     private AudioSource LandFloorSound;
+    private AudioSource WingFlapSound;
+
+    private const float parachuteCooldownMax = 1.0f;
+    private float parachuteCooldown = 0;
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -29,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         JumpSound = AudioSource[0];
         WalkSound = AudioSource[1];
         LandFloorSound = AudioSource[2];
+        WingFlapSound = AudioSource[3];
     }
 
     // Update is called once per frame
@@ -62,18 +68,40 @@ public class PlayerMovement : MonoBehaviour
             LandFloorSound.Play();
         }
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
-        {
-            if (Rb.velocity.y <= 0.01)
-            {
-                Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
-                //Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-                JumpSound.pitch = Random.Range(0.85f, 0.9f);
-                JumpSound.Play();
-            }
+        bool wasParachuteActive = parachuteCooldown <= 0;
 
-            Moving = false;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                if (Rb.velocity.y <= 0.01)
+                {
+                    Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
+                    //Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+                    JumpSound.pitch = Random.Range(0.85f, 0.9f);
+                    JumpSound.Play();
+                }
+
+                Moving = false;
+            }
+            else
+            {
+                parachuteCooldown -= Time.deltaTime;
+            }
         }
+        else
+        {
+            isParachuteActive = false;
+            parachuteCooldown = parachuteCooldownMax;
+        }
+
+        isParachuteActive = parachuteCooldown <= 0;
+        if (!wasParachuteActive && isParachuteActive)
+        {
+            WalkSound.pitch = Random.Range(0.95f, 1.05f);
+            WingFlapSound.Play();
+        }
+
 
         if (!Moving || !isGrounded)
         {
@@ -81,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!WalkSound.isPlaying && isGrounded && Moving)
         {
-            LandFloorSound.pitch = Random.Range(0.95f, 1.05f);
+            WalkSound.pitch = Random.Range(0.95f, 1.05f);
             WalkSound.Play();
         }
     }

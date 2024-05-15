@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.Raycast(GroundCheck1.position, -transform.up, 0.15f, GroundLayers) || Physics2D.Raycast(GroundCheck2.position, -transform.up, 0.15f, GroundLayers);
         if (!wasGrounded && isGrounded)
         {
+            LandFloorSound.pitch = Random.Range(0.95f, 1.05f);
             LandFloorSound.Play();
         }
 
@@ -80,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!WalkSound.isPlaying && isGrounded && Moving)
         {
+            LandFloorSound.pitch = Random.Range(0.95f, 1.05f);
             WalkSound.Play();
         }
     }

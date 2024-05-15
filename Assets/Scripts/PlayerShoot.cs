@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] private float Force;
-    [SerializeField] public GameObject WaterPrefab;
-    [SerializeField] public GameObject IcePrefab;
-    [SerializeField] public GameObject SteamPrefab;
+    public GameObject WaterPrefab;
+    public GameObject IcePrefab;
+    public GameObject SteamPrefab;
 
-    [SerializeField] public LayerMask RayStopLayers;
-    [SerializeField] public LayerMask LiquidParticleLayers;
+    public LayerMask RayStopLayers;
+    public LayerMask LiquidParticleLayers;
 
 
     public Transform AimingPoint;
@@ -24,19 +24,75 @@ public class PlayerShoot : MonoBehaviour
     private Vector2 AimPos;
     private Vector2 AimDirectionNorm;
 
-    public float shootTimer = 0f;
-    public bool canShoot = true;
-    public float shootDuration = 1f; // Time in seconds player can shoot continuously
-    public float shootCooldown = 1f;
+
+    public float shootWaterTankMax = 36; // max tank fill state
+    public float shootCooldownMax = 0.02f; // time between individual bullets
+
+    private float shootWaterTank = 40; // current fill state
+    private float shootCooldown = 0f; // time until the next individual bullet
+
+    private AudioSource WaterHoseSFX;
+    private AudioSource WaterPumpSFX;
+
 
 
     private void Start()
     {
         GunSprite = Gun.GetComponent<SpriteRenderer>();
+        var GunAudioSources = Gun.GetComponents<AudioSource>();
+
+        WaterHoseSFX = GunAudioSources[0];
+        WaterPumpSFX = GunAudioSources[1];
+
+    }
+
+    private void RechargeGun()
+    {
+        // recharge slowly if not at max
+        if (shootWaterTank < shootWaterTankMax)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                WaterHoseSFX.Stop();
+                // if pressing fire, only let the gun trickle
+                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime*2.0f);
+
+                if (!WaterPumpSFX.isPlaying && shootWaterTank > 1)
+                {
+                    WaterPumpSFX.Play();
+                } 
+                else if (shootWaterTank <= 1)
+                {
+                    WaterPumpSFX.Stop();
+                }
+                WaterPumpSFX.volume = (shootWaterTank / shootWaterTankMax);
+            }
+            else
+            {
+                WaterPumpSFX.Stop();
+                // if not pressing fire, recharge the gun very quickly
+                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime / (shootCooldownMax*2.0f));
+
+                if (!WaterHoseSFX.isPlaying)
+                {
+                    WaterHoseSFX.Play();
+                }
+            }
+        }
+        else
+        {
+            WaterHoseSFX.Stop();
+        }
+
+        // tick down the time for the next bullet to be shot
+        shootCooldown -= Time.deltaTime;
     }
 
     void Update()
     {
+
+        RechargeGun();
+
         WorldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         AimDirectionNorm = (WorldMousePos - (Vector2)transform.position).normalized;
         AimPos = AimingPoint.position;
@@ -60,53 +116,47 @@ public class PlayerShoot : MonoBehaviour
             GunSprite.flipY = false;
             PlayerSprite.flipX = false;
         }
-        if (canShoot)
-        {
-            // Check if the mouse button is pressed and the shoot duration hasn't elapsed
-            if (Input.GetMouseButton(0) && shootTimer <= shootDuration)
-            {
-                Shoot();
-                shootTimer += Time.deltaTime;
-            }
-            else
-            {
-                canShoot = false;
-                shootTimer = 0f;
-            }
-        }
-        else
-        {
-            // Player can't shoot, start cooldown
-            shootTimer += Time.deltaTime;
-            if (shootTimer >= shootCooldown)
-            {
-                canShoot = true;
-                shootTimer = 0f;
-            }
-            if (Input.GetMouseButton(0))
-            {
-                Shoot();
-            }
 
-            if (Input.GetMouseButton(1))
-            {
-                FreezeRay();
-            }
-
-            if (Input.GetMouseButton(2))
-            {
-                HeatRay();
-            }
+        if (Input.GetMouseButton(0))
+        {
+            Shoot();
         }
+
+        if (Input.GetMouseButton(1))
+        {
+            FreezeRay();
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            HeatRay();
+        }
+        
     }
 
     void Shoot()
     {
+        // if gun is cooling down, or the tank is empty, don't shoot
+        if (shootCooldown > 0 || shootWaterTank < 1) return;
+
+
+        shootWaterTank--; // deplete the tank
+        shootCooldown = shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
+
         // Creates the water locally
-        GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.5f), Quaternion.identity);
+        GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);
 
         // Adds velocity to the bullet
-        waterParticle.GetComponent<Rigidbody2D>().velocity = AimDirectionNorm * Force;
+        var waterVelocity = AimDirectionNorm * Force;
+
+        // Reduce velocity as tank depletes
+        var fillFactor = shootWaterTank / shootWaterTankMax;
+        if (fillFactor < 0.9f)
+        {
+            waterVelocity *= fillFactor;
+        }
+
+        waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;
         Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
     }
 

@@ -12,11 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform GroundCheck1;
     [SerializeField] private Transform GroundCheck2;
 
-    public bool Jumping = false;
     public bool isGrounded = false;
     public bool Moving = false;
-
-    private static int JumpCooldown = 0;
 
     private float MoveDir;
 
@@ -58,29 +55,30 @@ public class PlayerMovement : MonoBehaviour
 
         bool wasGrounded = isGrounded;
 
-        isGrounded = Physics2D.Raycast(GroundCheck1.position, -transform.up, 0.1f, GroundLayers) || Physics2D.Raycast(GroundCheck2.position, -transform.up, 0.1f, GroundLayers);
+        isGrounded = Physics2D.Raycast(GroundCheck1.position, -transform.up, 0.15f, GroundLayers) || Physics2D.Raycast(GroundCheck2.position, -transform.up, 0.15f, GroundLayers);
         if (!wasGrounded && isGrounded)
         {
             LandFloorSound.Play();
         }
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded && JumpCooldown == 0)
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
-            JumpCooldown += 3;
-            Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+            if (Rb.velocity.y <= 0.01)
+            {
+                Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
+                //Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+                JumpSound.pitch = Random.Range(0.85f, 0.9f);
+                JumpSound.Play();
+            }
+
             Moving = false;
-            JumpSound.Play();
-        }
-        else if (isGrounded)
-        {
-            JumpCooldown = Mathf.Max(JumpCooldown - 1, 0);
         }
 
-        if (!Moving)
+        if (!Moving || !isGrounded)
         {
             WalkSound.Stop();
         }
-        else if (!WalkSound.isPlaying && isGrounded)
+        else if (!WalkSound.isPlaying && isGrounded && Moving)
         {
             WalkSound.Play();
         }

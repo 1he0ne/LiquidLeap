@@ -3,76 +3,88 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public float Speed;
-    public float CircleRadius;
-    public float Radius;
+    public float ChaseSpeed;
+    public float ChaseDistance;
     public Rigidbody2D EnemyRb;
     public GameObject GroundCheckEnemy;
+    
+    public GameObject PosA;  
+    public GameObject PosB;
+    
+    public SpriteRenderer SpriteRenderer;
+    public Transform CurrentPos;
     public Transform PlayerPosition;
     public LayerMask GroundLayer;
-    public bool IsGrounded;
-    public bool FacingRight;
     public bool PlayerInSight = false;
+
     void Start()
     {
         EnemyRb = GetComponent<Rigidbody2D>();
+        CurrentPos = PosB.transform;
     }
 
     void Update()
     {
-        var raycastHit = Physics2D.Raycast(transform.position, Vector2.left, Radius);
-        if ( raycastHit )
+        if ( Vector2.Distance(transform.position, PlayerPosition.position) > ChaseDistance )
         {
-           
-            Debug.Log("PlayerSighted");
+            Patrol();
         }
+        if ( Vector2.Distance(transform.position, PlayerPosition.position) < ChaseDistance )
+        {
+            PlayerInSight = true;
+        }
+        if ( PlayerInSight )
+        {
+            if ( transform.position.x > PlayerPosition.position.x )
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+                transform.position += Vector3.left * ChaseSpeed * Time.deltaTime;
 
+            }
+            if ( transform.position.x < PlayerPosition.position.x )
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                transform.position += Vector3.right * ChaseSpeed * Time.deltaTime;
 
-        //Patrol();
-
-
+            }
+        }
     }
 
     void Patrol()
     {
-        PlayerInSight = false;
-        EnemyRb.velocity = Vector2.right * Speed * Time.deltaTime;
-        IsGrounded = Physics2D.OverlapCircle(GroundCheckEnemy.transform.position, CircleRadius, GroundLayer);
-
-        if ( !IsGrounded && FacingRight )
+       Vector2 point = CurrentPos.position - transform.position;
+        if ( CurrentPos == PosB.transform )
         {
-            Flip();
+            EnemyRb.velocity = new Vector2(Speed, 0);
         }
-        else if ( !IsGrounded && !FacingRight )
+        else
         {
-            Flip();
+            EnemyRb.velocity = new Vector2(-Speed, 0);
+        }
+        if ( Vector2.Distance(transform.position, CurrentPos.position)  < 0.5f && CurrentPos == PosB.transform )
+        {
+            CurrentPos = PosA.transform;
+            SpriteRenderer.flipX = true;
+        }
+        if ( Vector2.Distance(transform.position, CurrentPos.position) < 0.5f && CurrentPos == PosA.transform )
+        {
+            CurrentPos = PosB.transform;
+            SpriteRenderer.flipX = false; 
         }
     }
 
     private void Flip()
     {
-        FacingRight = !FacingRight;
-        transform.Rotate(new Vector3(0, 180, 0));
-        Speed = -Speed;
+       
+        SpriteRenderer.flipX = true;
+       
     }
+
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(GroundCheckEnemy.transform.position, CircleRadius);
-        Gizmos.DrawLine(transform.position, Vector2.left * Radius);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if ( collision.collider.gameObject.tag == "Liquid" )
-        {
-            Debug.Log("Hit");
-        }
-    }
-
-    void AttackPlayer()
-    {
-        
+       
     }
 }
 

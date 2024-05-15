@@ -84,10 +84,6 @@ public class PlayerShoot : MonoBehaviour
                 canShoot = true;
                 shootTimer = 0f;
             }
-            if (Input.GetMouseButton(0))
-            {
-                Shoot();
-            }
 
             if (Input.GetMouseButton(1))
             {

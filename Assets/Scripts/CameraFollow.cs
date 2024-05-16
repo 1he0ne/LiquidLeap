@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -9,6 +8,9 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         // Camera.transform.position = new Vector3(0, 0, -10);
-        Camera.transform.position = PlayerPosition.position + Offset;
+        if (PlayerPosition != null)
+        {
+            Camera.transform.position = PlayerPosition.position + Offset;
+        }
     }
 }

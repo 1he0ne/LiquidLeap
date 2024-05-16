@@ -9,6 +9,7 @@ TagManager:
   - Static
   - Enemy
   - Water
+  - Death
   layers:
   - Default
   - TransparentFX

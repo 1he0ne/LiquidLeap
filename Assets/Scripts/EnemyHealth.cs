@@ -6,7 +6,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int Health { get; set; }
 
-
+    public Animator Animator;
+    public ParticleSystem Particle;
+    public AudioSource AudioSource;
+    public AudioClip Clip;
     void Start()
     {
         Health = 100;
@@ -20,6 +23,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         if ( Health <= 0 )
         {
+            //Die();
+            Debug.Log("Enemy Died");
+            Animator.SetTrigger("Die");
             Die();
         }
     }
@@ -28,17 +34,31 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         if ( collision.collider.gameObject.tag == "Water" )
         {
-            //TODO: Animations!
-            Damage(1);
+            
+            Damage(15);
             Debug.Log("Enemy takes hit");
-            //PlayHurt Animation
+            Animator.SetTrigger("Hurt");
+            StartCoroutine(PlayHurtSound());
+        }
+
+        if ( collision.collider.gameObject.tag == "Death" )
+        {
+            Die();
         }
     }
     public void Die()
     {
          //PlayAnimation
-         Destroy(gameObject,02f);
+       Instantiate(Particle,transform.position, Quaternion.identity);
+       Destroy(gameObject);
 
         
+    }
+
+    IEnumerator PlayHurtSound()
+    {
+        yield return new WaitForSeconds(0.4f);
+        AudioSource.PlayOneShot(Clip);
+
     }
 }

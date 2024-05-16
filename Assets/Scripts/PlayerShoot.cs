@@ -39,8 +39,9 @@ public class PlayerShoot : MonoBehaviour
 
     private AudioSource WaterHoseSFX;
     private AudioSource WaterPumpSFX;
-
-
+    private bool canShoot;
+    private float shootTimer;
+    private int shootDuration;
 
     private void Start()
     {
@@ -57,19 +58,19 @@ public class PlayerShoot : MonoBehaviour
         waterFillPercent = shootWaterTank / shootWaterTankMax;
 
         // recharge slowly if not at max
-        if (shootWaterTank < shootWaterTankMax)
+        if ( shootWaterTank < shootWaterTankMax )
         {
-            if (Input.GetMouseButton(0))
+            if ( Input.GetMouseButton(0) )
             {
                 WaterHoseSFX.Stop();
                 // if pressing fire, only let the gun trickle
-                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime*2.0f);
+                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime * 2.0f);
 
-                if (!WaterPumpSFX.isPlaying && shootWaterTank > 1)
+                if ( !WaterPumpSFX.isPlaying && shootWaterTank > 1 )
                 {
                     WaterPumpSFX.Play();
-                } 
-                else if (shootWaterTank <= 1)
+                }
+                else if ( shootWaterTank <= 1 )
                 {
                     WaterPumpSFX.Stop();
                 }
@@ -79,9 +80,9 @@ public class PlayerShoot : MonoBehaviour
             {
                 WaterPumpSFX.Stop();
                 // if not pressing fire, recharge the gun very quickly
-                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime / (shootCooldownMax*2.0f));
+                shootWaterTank = Mathf.Min(shootWaterTankMax, shootWaterTank + Time.deltaTime / (shootCooldownMax * 2.0f));
 
-                if (!WaterHoseSFX.isPlaying)
+                if ( !WaterHoseSFX.isPlaying )
                 {
                     WaterHoseSFX.Play();
                 }
@@ -95,12 +96,11 @@ public class PlayerShoot : MonoBehaviour
         // tick down the time for the next bullet to be shot
         shootCooldown -= Time.deltaTime;
 
-        GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent*100);
+        GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent * 100);
     }
 
     void Update()
     {
-
         RechargeGun();
 
         WorldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -116,25 +116,14 @@ public class PlayerShoot : MonoBehaviour
         Gun.transform.rotation = targetRotation;
 
         bool flipSprites = Mathf.Abs(angle) > 90;
-    
+
         GunSprite.flipY = flipSprites;
         PlayerSprite.flipX = flipSprites;
-        
 
-
-        if (Input.GetMouseButton(0))
-        {
-            Shoot();
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            FreezeRay();
-        }
-        if (canShoot)
+        if ( canShoot )
         {
             // Check if the mouse button is pressed and the shoot duration hasn't elapsed
-            if (Input.GetMouseButton(0) && shootTimer <= shootDuration)
+            if ( Input.GetMouseButton(0) && shootTimer <= shootDuration )
             {
                 Shoot();
                 shootTimer += Time.deltaTime;
@@ -149,122 +138,129 @@ public class PlayerShoot : MonoBehaviour
         {
             // Player can't shoot, start cooldown
             shootTimer += Time.deltaTime;
-            if (shootTimer >= shootCooldown)
+            if ( shootTimer >= shootCooldown )
             {
                 canShoot = true;
                 shootTimer = 0f;
             }
 
-        if (Input.GetMouseButton(2))
+            if ( Input.GetMouseButton(1) )
+            {
+                FreezeRay();
+            }
+
+            if ( Input.GetMouseButton(2) )
+            {
+                HeatRay();
+            }
+
+        }
+
+        void Shoot()
         {
-            HeatRay();
+            // if gun is cooling down, or the tank is empty, don't shoot
+            if ( shootCooldown > 0 || shootWaterTank < 1 ) return;
+
+
+            shootWaterTank--; // deplete the tank
+            shootCooldown = shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
+
+            // Creates the water locally
+            GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);
+
+            // Adds velocity to the bullet
+            var waterVelocity = AimDirectionNorm * Force;
+
+            // Reduce velocity as tank depletes
+            if ( waterFillPercent < 0.9f )
+            {
+                waterVelocity *= waterFillPercent;
+            }
+
+            waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;
+            Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
+        }
+
+         double getDistanceToWall()
+        {
+            float maxRayDist = 5.0f;
+            float minRayDist = 0.75f;
+
+            var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
+            // stop ray at e.g. walls and determine the new max length up to that wall
+            RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, RayStopLayers);
+            if ( raycastHit )
+            {
+                return raycastHit.distance;
+                // Debug.Log(maxRayDist);
+            }
+            return maxRayDist;
         }
         
-    }
-
-    void Shoot()
-    {
-        // if gun is cooling down, or the tank is empty, don't shoot
-        if (shootCooldown > 0 || shootWaterTank < 1) return;
-
-
-        shootWaterTank--; // deplete the tank
-        shootCooldown = shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
-
-        // Creates the water locally
-        GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);
-
-        // Adds velocity to the bullet
-        var waterVelocity = AimDirectionNorm * Force;
-
-        // Reduce velocity as tank depletes
-        if (waterFillPercent < 0.9f)
+         List<RaycastHit2D> GetParticlesInRay(LayerMask rayStopLayers, LayerMask rayParticleLayers, Color rayColor)
         {
-            waterVelocity *= waterFillPercent;
+            float maxRayDist = 5.0f;
+            float minRayDist = 0.75f;
+
+            var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
+
+            // stop ray at e.g. walls and determine the new max length up to that wall
+            RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, rayStopLayers);
+            if ( raycastHit )
+            {
+                maxRayDist = raycastHit.distance;
+                // Debug.Log(maxRayDist);
+            }
+
+            // TODO: make it a "real" line, or some way for the player to see what's happening
+            Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
+
+
+            // cast ray again, this time, hit the particle layer
+            var waterHits = Physics2D.RaycastAll(rayStartPos, AimDirectionNorm, maxRayDist, rayParticleLayers);
+
+            List<RaycastHit2D> particlesHit = new();
+
+            foreach ( RaycastHit2D hit in waterHits )
+            {
+                particlesHit.Add(hit);
+            }
+
+            return particlesHit;
+        }
+        void FreezeRay()
+        {
+            foreach ( RaycastHit2D hit in GetParticlesInRay(RayStopLayers, LiquidParticleLayers, Color.blue) )
+            {
+                var tempIce = Instantiate(IcePrefab, hit.transform.position, hit.transform.rotation);
+                Destroy(hit.transform.gameObject);
+
+                Destroy(tempIce, StaticConstants.IceMeltTime);
+            }
+
+            foreach ( RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.blue) ) //  11 is devices
+            {
+                Debug.Log("hit machine with freeze");
+                hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.WATER;
+            }
         }
 
-        waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;
-        Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
-    }
-
-    private double getDistanceToWall()
-    {
-        float maxRayDist = 5.0f;
-        float minRayDist = 0.75f;
-
-        var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
-        // stop ray at e.g. walls and determine the new max length up to that wall
-        RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, RayStopLayers);
-        if (raycastHit)
+        void HeatRay()
         {
-            return raycastHit.distance;
-            // Debug.Log(maxRayDist);
-        }
-        return maxRayDist;
-    }
-    private List<RaycastHit2D> GetParticlesInRay(LayerMask rayStopLayers, LayerMask rayParticleLayers, Color rayColor)
-    {
-        float maxRayDist = 5.0f;
-        float minRayDist = 0.75f;
+            foreach ( RaycastHit2D hit in GetParticlesInRay(RayStopLayers, LiquidParticleLayers, Color.red) )
+            {
+                var tempSteam = Instantiate(SteamPrefab, hit.transform.position, hit.transform.rotation);
+                Destroy(hit.transform.gameObject);
 
-        var rayStartPos = AimPos + (AimDirectionNorm * minRayDist);
+                tempSteam.GetComponent<RevertToWater>().turnToWater = true;
+                Destroy(tempSteam, StaticConstants.SteamCondenseTime);
+            }
 
-        // stop ray at e.g. walls and determine the new max length up to that wall
-        RaycastHit2D raycastHit = Physics2D.Raycast(rayStartPos, AimDirectionNorm, maxRayDist, rayStopLayers);
-        if (raycastHit)
-        {
-            maxRayDist = raycastHit.distance;
-            // Debug.Log(maxRayDist);
-        }
-
-        // TODO: make it a "real" line, or some way for the player to see what's happening
-        Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
-
-
-        // cast ray again, this time, hit the particle layer
-        var waterHits = Physics2D.RaycastAll(rayStartPos, AimDirectionNorm, maxRayDist, rayParticleLayers);
-
-        List<RaycastHit2D> particlesHit = new();
-
-        foreach (RaycastHit2D hit in waterHits)
-        {
-            particlesHit.Add(hit);
-        }
-
-        return particlesHit;
-    }
-    void FreezeRay()
-    {
-        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, LiquidParticleLayers, Color.blue))
-        {
-            var tempIce = Instantiate(IcePrefab, hit.transform.position, hit.transform.rotation);
-            Destroy(hit.transform.gameObject);
-
-            Destroy(tempIce, StaticConstants.IceMeltTime);
-        }
-
-        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.blue)) //  11 is devices
-        {
-            Debug.Log("hit machine with freeze");
-            hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.WATER;
-        }
-    }
-
-    void HeatRay()
-    {
-        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, LiquidParticleLayers, Color.red))
-        {
-            var tempSteam = Instantiate(SteamPrefab, hit.transform.position, hit.transform.rotation);
-            Destroy(hit.transform.gameObject);
-
-            tempSteam.GetComponent<RevertToWater>().turnToWater = true;
-            Destroy(tempSteam, StaticConstants.SteamCondenseTime);
-        }
-
-        foreach (RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.red)) //  11 is devices
-        {
-            Debug.Log("hit machine with heat");
-            hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.STEAM;
+            foreach ( RaycastHit2D hit in GetParticlesInRay(RayStopLayers, DeviceLayer, Color.red) ) //  11 is devices
+            {
+                Debug.Log("hit machine with heat");
+                hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.STEAM;
+            }
         }
     }
 }

@@ -7,11 +7,11 @@ public class EnemyAI : MonoBehaviour
     public float ChaseDistance;
     public Rigidbody2D EnemyRb;
     public GameObject GroundCheckEnemy;
-    
-    public GameObject PosA;  
+
+    public GameObject PosA;
     public GameObject PosB;
-    
-    public SpriteRenderer SpriteRenderer;
+
+    public Animator Animator;
     public Transform CurrentPos;
     public Transform PlayerPosition;
     public LayerMask GroundLayer;
@@ -25,66 +25,76 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if ( Vector2.Distance(transform.position, PlayerPosition.position) > ChaseDistance )
+        
+        float distanceToPlayer = Vector2.Distance(transform.position, PlayerPosition.position);
+
+        if ( distanceToPlayer > ChaseDistance )
         {
             Patrol();
+            PlayerInSight = false;
         }
-        if ( Vector2.Distance(transform.position, PlayerPosition.position) < ChaseDistance )
+        else
         {
             PlayerInSight = true;
         }
+
         if ( PlayerInSight )
         {
-            if ( transform.position.x > PlayerPosition.position.x )
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                transform.position += Vector3.left * ChaseSpeed * Time.deltaTime;
-
-            }
-            if ( transform.position.x < PlayerPosition.position.x )
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-                transform.position += Vector3.right * ChaseSpeed * Time.deltaTime;
-
-            }
+            ChasePlayer();
         }
     }
 
     void Patrol()
     {
-       Vector2 point = CurrentPos.position - transform.position;
-        if ( CurrentPos == PosB.transform )
+        Animator.SetTrigger("Idle");
+        transform.position = Vector2.MoveTowards(transform.position, CurrentPos.position, ChaseSpeed * Time.deltaTime);
+
+        if ( Vector2.Distance(transform.position, CurrentPos.position) < 0.5f )
         {
-            EnemyRb.velocity = new Vector2(Speed, 0);
+            if ( CurrentPos == PosB.transform )
+            {
+                CurrentPos = PosA.transform;
+            }
+            else
+            {
+                CurrentPos = PosB.transform;
+            }
         }
-        else
+
+        // Optionally, you can add sprite flipping in patrol as well
+        Vector3 direction = CurrentPos.position - transform.position;
+        FlipSprite(direction);
+    }
+
+    void ChasePlayer()
+    {
+        Animator.SetTrigger("Idle");
+        Vector3 direction = PlayerPosition.position - transform.position;
+        direction.Normalize();
+
+        // Flip the sprite to face the player
+        FlipSprite(direction);
+
+        // Move towards the player
+        if ( transform.position.x > PlayerPosition.position.x )
         {
-            EnemyRb.velocity = new Vector2(-Speed, 0);
+            transform.position += Vector3.left * ChaseSpeed * Time.deltaTime;
         }
-        if ( Vector2.Distance(transform.position, CurrentPos.position)  < 0.5f && CurrentPos == PosB.transform )
+        else if ( transform.position.x < PlayerPosition.position.x )
         {
-            CurrentPos = PosA.transform;
-            SpriteRenderer.flipX = true;
-        }
-        if ( Vector2.Distance(transform.position, CurrentPos.position) < 0.5f && CurrentPos == PosA.transform )
-        {
-            CurrentPos = PosB.transform;
-            SpriteRenderer.flipX = false; 
+            transform.position += Vector3.right * ChaseSpeed * Time.deltaTime;
         }
     }
 
-    private void Flip()
+    void FlipSprite(Vector3 direction)
     {
-       
-        SpriteRenderer.flipX = true;
-       
-    }
-
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-       
+        if ( direction.x > 0 )
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if ( direction.x < 0 )
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }
-

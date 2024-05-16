@@ -136,7 +136,7 @@ public class PlayerShoot : MonoBehaviour
         // Reduce velocity as tank depletes
         if (waterFillPercent < 0.9f)
         {
-            waterVelocity *= waterFillPercent;
+            waterVelocity *= waterFillPercent / 0.9f;
         }
 
         waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;

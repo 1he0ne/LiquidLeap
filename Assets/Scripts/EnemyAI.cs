@@ -3,76 +3,98 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     public float Speed;
-    public float CircleRadius;
-    public float Radius;
+    public float ChaseSpeed;
+    public float ChaseDistance;
     public Rigidbody2D EnemyRb;
     public GameObject GroundCheckEnemy;
+
+    public GameObject PosA;
+    public GameObject PosB;
+
+    public Animator Animator;
+    public Transform CurrentPos;
     public Transform PlayerPosition;
     public LayerMask GroundLayer;
-    public bool IsGrounded;
-    public bool FacingRight;
     public bool PlayerInSight = false;
+
     void Start()
     {
         EnemyRb = GetComponent<Rigidbody2D>();
+        CurrentPos = PosB.transform;
     }
 
     void Update()
     {
-        var raycastHit = Physics2D.Raycast(transform.position, Vector2.left, Radius);
-        if ( raycastHit )
+        
+        float distanceToPlayer = Vector2.Distance(transform.position, PlayerPosition.position);
+
+        if ( distanceToPlayer > ChaseDistance )
         {
-           
-            Debug.Log("PlayerSighted");
+            Patrol();
+            PlayerInSight = false;
+        }
+        else
+        {
+            PlayerInSight = true;
         }
 
-
-        //Patrol();
-
-
+        if ( PlayerInSight )
+        {
+            ChasePlayer();
+        }
     }
 
     void Patrol()
     {
-        PlayerInSight = false;
-        EnemyRb.velocity = Vector2.right * Speed * Time.deltaTime;
-        IsGrounded = Physics2D.OverlapCircle(GroundCheckEnemy.transform.position, CircleRadius, GroundLayer);
+        Animator.SetTrigger("Idle");
+        transform.position = Vector2.MoveTowards(transform.position, CurrentPos.position, ChaseSpeed * Time.deltaTime);
 
-        if ( !IsGrounded && FacingRight )
+        if ( Vector2.Distance(transform.position, CurrentPos.position) < 0.5f )
         {
-            Flip();
+            if ( CurrentPos == PosB.transform )
+            {
+                CurrentPos = PosA.transform;
+            }
+            else
+            {
+                CurrentPos = PosB.transform;
+            }
         }
-        else if ( !IsGrounded && !FacingRight )
+
+        // Optionally, you can add sprite flipping in patrol as well
+        Vector3 direction = CurrentPos.position - transform.position;
+        FlipSprite(direction);
+    }
+
+    void ChasePlayer()
+    {
+        Animator.SetTrigger("Idle");
+        Vector3 direction = PlayerPosition.position - transform.position;
+        direction.Normalize();
+
+        // Flip the sprite to face the player
+        FlipSprite(direction);
+
+        // Move towards the player
+        if ( transform.position.x > PlayerPosition.position.x )
         {
-            Flip();
+            transform.position += Vector3.left * ChaseSpeed * Time.deltaTime;
         }
-    }
-
-    private void Flip()
-    {
-        FacingRight = !FacingRight;
-        transform.Rotate(new Vector3(0, 180, 0));
-        Speed = -Speed;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(GroundCheckEnemy.transform.position, CircleRadius);
-        Gizmos.DrawLine(transform.position, Vector2.left * Radius);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if ( collision.collider.gameObject.tag == "Liquid" )
+        else if ( transform.position.x < PlayerPosition.position.x )
         {
-            Debug.Log("Hit");
+            transform.position += Vector3.right * ChaseSpeed * Time.deltaTime;
         }
     }
 
-    void AttackPlayer()
+    void FlipSprite(Vector3 direction)
     {
-        
+        if ( direction.x > 0 )
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if ( direction.x < 0 )
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }
-

@@ -15,7 +15,7 @@ public class PlayerShootRay : MonoBehaviour
 
 
     public float fireRayMaxTime = 2.0f; // Maximum time the ray can fire before it needs to recharge
-    public float rechargeRayTime = 5.5f; // Time required to recharge, should be longer than ice-unfreeze-time
+    public float rechargeRayTime = 3.0f; // Time required to recharge, should be longer than ice-unfreeze-time
 
     private bool isRayFiring = false;
     private bool isRayRecharging = false;
@@ -25,7 +25,10 @@ public class PlayerShootRay : MonoBehaviour
     private LineRenderer beam;
 
     public Color iceColor = Color.blue;
-    public Color fireColor = Color.red;
+    public Color heatColor = Color.red;
+
+    [SerializeField] private AudioSource freezeRaySFX;
+    [SerializeField] private AudioSource heatRaySFX;
 
 
     // private LineRenderer RayGraphics;
@@ -78,16 +81,26 @@ public class PlayerShootRay : MonoBehaviour
             if (Input.GetMouseButtonUp(2) || Input.GetMouseButtonUp(1) || (Time.time - fireRayStartTime) >= fireRayMaxTime)
             {
                 StopFiringRay();
+                freezeRaySFX.Stop();
+                heatRaySFX.Stop();
             }
             else
             {
                 if (Input.GetMouseButton(2))
                 {
                     HeatRay();
+                    if(!heatRaySFX.isPlaying)
+                    {
+                        heatRaySFX.Play();
+                    }
                 }
                 else if (Input.GetMouseButton(1))
                 {
                     FreezeRay();
+                    if (!freezeRaySFX.isPlaying)
+                    {
+                        freezeRaySFX.Play();
+                    }
                 }
             }
         }
@@ -173,7 +186,7 @@ public class PlayerShootRay : MonoBehaviour
 
     void HeatRay()
     {
-        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers, fireColor))
+        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers, heatColor))
         {
             var tempSteam = Instantiate(SteamPrefab, hit.transform.position, hit.transform.rotation);
             Destroy(hit.transform.gameObject);
@@ -182,7 +195,7 @@ public class PlayerShootRay : MonoBehaviour
             Destroy(tempSteam, StaticConstants.SteamCondenseTime);
         }
 
-        foreach (RaycastHit2D hit in GetParticlesInRay(DeviceLayer, fireColor))
+        foreach (RaycastHit2D hit in GetParticlesInRay(DeviceLayer, heatColor))
         {
             hit.transform.gameObject.GetComponent<SteamVent>().state = SteamVent.State.STEAM;
         }

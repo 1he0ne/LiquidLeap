@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource WalkSound;
     private AudioSource LandFloorSound;
     private AudioSource WingFlapSound;
+    private AudioSource SteamBoostSound;
+
 
     private const float parachuteCooldownMax = 1.0f;
     private float parachuteCooldown = 0.0f;
@@ -37,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         WalkSound = AudioSource[1];
         LandFloorSound = AudioSource[2];
         WingFlapSound = AudioSource[3];
+        SteamBoostSound = AudioSource[4];
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -46,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
             // oof make sure we only ever trigger on steam!
             Destroy(collision.gameObject);
             Rb.AddForce(new Vector2(0, JumpForce / 5.0f), ForceMode2D.Impulse);
+            if(!SteamBoostSound.isPlaying)
+            {
+                SteamBoostSound.pitch = Random.Range(0.98f, 1.02f);
+                SteamBoostSound.volume = Random.Range(0.3f, 0.5f);
+                SteamBoostSound.Play();
+            }
 
         }
     }

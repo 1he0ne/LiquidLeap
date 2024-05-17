@@ -82,7 +82,7 @@ public class PlayerShoot : MonoBehaviour
         }
 
         // tick down the time for the next bullet to be shot
-        shootCooldown -= Time.deltaTime;
+        shootCooldown = Mathf.Max(0, shootCooldown - Time.deltaTime);
 
         if (GunFillUI)
         {
@@ -123,9 +123,10 @@ public class PlayerShoot : MonoBehaviour
         // if gun is cooling down, or the tank is empty, don't shoot
         if (shootCooldown > 0 || shootWaterTank < 1) return;
 
+        
 
         shootWaterTank--; // deplete the tank
-        shootCooldown = shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
+        shootCooldown += shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
 
         // Creates the water locally
         GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);

@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Water
   - Death
+  - Ground
   layers:
   - Default
   - TransparentFX

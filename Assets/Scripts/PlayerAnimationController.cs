@@ -2,18 +2,23 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    public Animator Animator;
-    public PlayerMovement PlayerMovement;
+    private Animator Animator;
+    private PlayerMovement PlayerMovement;
 
+    private void Start()
+    {
+        Animator = GetComponent<Animator>();
+        PlayerMovement = GetComponent<PlayerMovement>();
+    }
 
     private void Update()
     {
-        if ( PlayerMovement.Moving )
+        if ( PlayerMovement.isMoving )
         {
             Animator.SetTrigger("Run");
         }
 
-        if ( !PlayerMovement.Moving )
+        if ( !PlayerMovement.isMoving )
         {
             Animator.SetTrigger("Idle");
         }
@@ -23,11 +28,9 @@ public class PlayerAnimationController : MonoBehaviour
             Animator.SetTrigger("Jump");
         }
 
-        if ( PlayerMovement.isGrounded )
-        {
-
-        }
-        
+        // if ( PlayerMovement.isGrounded )
+        // {
+        // 
+        // }
     }
 }
-

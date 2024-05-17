@@ -3,25 +3,24 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] private float Force;
-    [SerializeField] private TextMeshProUGUI GunFillUI;
-
-    public GameObject WaterPrefab;
-
-    public Transform AimingPoint;
-
-    public SpriteRenderer PlayerSprite;
-
-    public GameObject Gun;
-    private SpriteRenderer GunSprite;
-
-    private Vector2 WorldMousePos;
     public static Vector2 AimPos; // not nice, but the ray caster needs to know these values
     public static Vector2 AimDirectionNorm; // not nice, but the ray caster needs to know these values
 
+    public GameObject WaterPrefab; // TODO: should probably be loaded from Resources
 
-    public const float shootWaterTankMax = 36; // max tank fill state
-    public float shootCooldownMax = 0.02f; // time between individual bullets
+    public SpriteRenderer PlayerSprite;
+
+    private GameObject Gun;
+    private Transform AimingPoint;
+
+    private SpriteRenderer GunSprite;
+    private Vector2 WorldMousePos;
+
+    [SerializeField] private float Force;
+    [SerializeField] private TextMeshProUGUI GunFillUI;
+
+    [SerializeField] private const float shootWaterTankMax = 36; // max tank fill state
+    [SerializeField] private float shootCooldownMax = 0.02f; // time between individual bullets
 
     private float shootWaterTank = shootWaterTankMax; // current fill state
     private float shootCooldown = 0f; // time until the next individual bullet
@@ -31,11 +30,15 @@ public class PlayerShoot : MonoBehaviour
     private AudioSource WaterHoseSFX;
     private AudioSource WaterPumpSFX;
 
-
     private void Start()
     {
+        Gun = GameObject.Find("WaterGun");
+        AimingPoint = transform.Find("AimingPoint");
+
         GunSprite = Gun.GetComponent<SpriteRenderer>();
         var GunAudioSources = Gun.GetComponents<AudioSource>();
+
+        GunFillUI = GameObject.Find("GunFillUI").GetComponent<TextMeshProUGUI>();
 
         WaterHoseSFX = GunAudioSources[0];
         WaterPumpSFX = GunAudioSources[1];

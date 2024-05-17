@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class RevertToWater: MonoBehaviour
 {
-    public GameObject WaterPrefab;
+    public GameObject WaterPrefab; // TODO: should be loaded from Resources
 
-    public bool turnToWater;
+    public bool turnToWater; // maybe should be set with a setter?
     void OnDestroy()
     {
-        if (turnToWater)
+        if ( turnToWater )
         {
             var water = Instantiate(WaterPrefab, transform.position, transform.rotation);
             // the spawned particles should not extend their lifetime just when being heated

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanges : MonoBehaviour
 {
-    public PlayerHealth Health;
+    private PlayerHealth Health;
 
     private void Start()
     {

@@ -11,21 +11,23 @@ public class EnemyAI : MonoBehaviour
     public GameObject PosA;
     public GameObject PosB;
 
-    public Animator Animator;
-    public Transform CurrentPos;
+    private Animator Animator;
 
-    public LayerMask GroundLayer;
-    public bool PlayerInSight = false;
+
+    [SerializeField] private LayerMask GroundLayer;
+    [SerializeField] private bool PlayerInSight = false;
 
     private GameObject Player;
-    // private Rigidbody2D EnemyRb;
+    private Transform CurrentPos;
 
     void Start()
     {
-        // EnemyRb = GetComponent<Rigidbody2D>();
         CurrentPos = PosB.transform;
 
-        Player = GameObject.FindGameObjectsWithTag("Player")[0];
+        // Player = GameObject.FindGameObjectsWithTag("Player")[0];
+        Player = GameObject.Find("Player");
+
+        Animator = GetComponent<Animator>();
     }
 
     void Update()

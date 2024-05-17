@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class PlayerShootRay : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI RayStatsUI;
+    public GameObject IcePrefab; // TODO: should be loaded from Resources
+    public GameObject SteamPrefab; // TODO: should be loaded from Resources
 
-    public LayerMask RayStopLayers;
-    public LayerMask LiquidParticleLayers;
-    public LayerMask DeviceLayer;
+    [SerializeField] private LayerMask RayStopLayers;
+    [SerializeField] private LayerMask LiquidParticleLayers;
+    [SerializeField] private LayerMask DeviceLayer;
 
-    public GameObject IcePrefab;
-    public GameObject SteamPrefab;
+    [SerializeField] private Color iceColor = Color.blue;
+    [SerializeField] private Color heatColor = Color.red;
 
+    [SerializeField] private float fireRayMaxTime = 2.0f; // Maximum time the ray can fire before it needs to recharge
+    [SerializeField] private float rechargeRayTime = 3.0f; // Time required to recharge, should be longer than ice-unfreeze-time
 
-    public float fireRayMaxTime = 2.0f; // Maximum time the ray can fire before it needs to recharge
-    public float rechargeRayTime = 3.0f; // Time required to recharge, should be longer than ice-unfreeze-time
+    [SerializeField] private AudioSource freezeRaySFX;
+    [SerializeField] private AudioSource heatRaySFX;
 
     private bool isRayFiring = false;
     private bool isRayRecharging = false;
     private float fireRayStartTime;
     private float rechargeRayTimer = 0f;
 
-    public Color iceColor = Color.blue;
-    public Color heatColor = Color.red;
-
-    [SerializeField] private AudioSource freezeRaySFX;
-    [SerializeField] private AudioSource heatRaySFX;
-
     private LineRenderer beam;
+    private TextMeshProUGUI RayStatsUI;
 
     void Start()
     {
@@ -36,6 +34,8 @@ public class PlayerShootRay : MonoBehaviour
         beam.startWidth = 0.05f;
         beam.endWidth = 0.05f;
         beam.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+
+        RayStatsUI = GameObject.Find("RayStatsUI").GetComponent<TextMeshProUGUI>();
     }
 
     void Update()

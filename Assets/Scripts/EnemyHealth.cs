@@ -1,18 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     public int Health { get; set; }
 
-    public Animator Animator;
-    public ParticleSystem Particle;
-    public AudioSource AudioSource;
-    public AudioClip Clip;
+    private ParticleSystem Particle;
+
+    private AudioClip ClipHurt;
+    private AudioClip ClipDie;
+
+    private Animator Animator;
+    private AudioSource AudioSource;
+
     void Start()
     {
         Health = 100;
+
+        Animator = GetComponent<Animator>();
+        AudioSource = GetComponent<AudioSource>();
+        ClipHurt = Resources.Load<AudioClip>("SFX/EnemyHurt");
+        ClipDie = Resources.Load<AudioClip>("SFX/EnemyDie");
+
+        Particle = Resources.Load<ParticleSystem>("EnemyDeathParticles");
     }
     public void Damage(int value)
     {
@@ -23,7 +33,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         if ( Health <= 0 )
         {
-            //Die();
             Debug.Log("Enemy Died");
             Animator.SetTrigger("Die");
             Die();
@@ -48,17 +57,15 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
     public void Die()
     {
-         //PlayAnimation
-       Instantiate(Particle,transform.position, Quaternion.identity);
-       Destroy(gameObject);
-
-        
+        // Spawn particles
+        AudioSource.PlayOneShot(ClipDie);
+        Instantiate(Particle,transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     IEnumerator PlayHurtSound()
     {
         yield return new WaitForSeconds(0.1f);
-        AudioSource.PlayOneShot(Clip);
-
+        AudioSource.PlayOneShot(ClipHurt);
     }
 }

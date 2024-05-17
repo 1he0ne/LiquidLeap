@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SteamVent : MonoBehaviour
 {
-    public GameObject steamParticle;
-    public GameObject waterParticle;
+    public GameObject steamParticle; // TODO: should be loaded from Resources
+    public GameObject waterParticle; // TODO: should be loaded from Resources
 
     public enum State { OFF, WATER, STEAM };
 
-    public State state;
+    public State state; // TODO: should be changed with a setter, not be public
 
     private const int emitterCooldownMax = 5;
     private int emitterCooldown;

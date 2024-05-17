@@ -2,21 +2,25 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D Rb;
+    // isGrounded and isMoving are public, because the AnimationController uses them (not ideal design, but it's a game jam!)
+    public bool isGrounded = false;
+    public bool isMoving = false;
+
     [SerializeField] private SpriteRenderer PlayerRenderer;
-    [SerializeField] private SpriteRenderer ParachuteRendererL;
-    [SerializeField] private SpriteRenderer ParachuteRendererR;
 
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float JumpForce;
     [SerializeField] private LayerMask GroundLayers;
 
-    [SerializeField] private Transform GroundCheck1;
-    [SerializeField] private Transform GroundCheck2;
+    private Rigidbody2D Rb;
 
-    [SerializeField] private bool isParachuteActive = false;
-    public bool isGrounded = false;
-    public bool Moving = false;
+    private SpriteRenderer ParachuteRendererL;
+    private SpriteRenderer ParachuteRendererR;
+
+    private Transform GroundCheck1;
+    private Transform GroundCheck2;
+
+    private bool isParachuteActive = false;
 
     private float MoveDir;
 
@@ -26,19 +30,34 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource WingFlapSound;
     private AudioSource SteamBoostSound;
 
-
     private const float parachuteCooldownMax = 1.0f;
     private float parachuteCooldown = 0.0f;
+
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
+        ParachuteRendererL = transform.Find("WingsAnimSpriteL").GetComponent<SpriteRenderer>();
+        ParachuteRendererR = transform.Find("WingsAnimSpriteR").GetComponent<SpriteRenderer>();
 
-        var AudioSource = GetComponents<AudioSource>();
-        JumpSound = AudioSource[0];
-        WalkSound = AudioSource[1];
-        LandFloorSound = AudioSource[2];
-        WingFlapSound = AudioSource[3];
-        SteamBoostSound = AudioSource[4];
+        GroundCheck1 = transform.Find("GroundCheck1").GetComponent<Transform>();
+        GroundCheck2 = transform.Find("GroundCheck2").GetComponent<Transform>();
+
+        if ( GroundCheck1 == null || GroundCheck2 == null )
+        {
+            Debug.LogError("GroundCheck locations not found. Please add 'GroundCheck1' and 'GroundCheck2' transforms!");
+        }
+
+        if( ParachuteRendererL == null || ParachuteRendererR == null ) 
+        {
+            Debug.LogError("Wings not found. Player needs WingsAnimSpriteL / WingsAnimSpriteR to function.");
+        }
+
+        var AudioSources = GetComponents<AudioSource>();
+        JumpSound = AudioSources[0];
+        WalkSound = AudioSources[1];
+        LandFloorSound = AudioSources[2];
+        WingFlapSound = AudioSources[3];
+        SteamBoostSound = AudioSources[4];
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -60,19 +79,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Moving = false;
+        isMoving = false;
 
         MoveDir = Input.GetAxis("Horizontal");
         Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
 
         if (Rb.velocity.x > 0.1f)
         {
-            Moving = true;
+            isMoving = true;
             PlayerRenderer.flipX = false;
         }
         else if (Rb.velocity.x < -0.1f)
         {
-            Moving = true;
+            isMoving = true;
             PlayerRenderer.flipX = true;
         }
 
@@ -101,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
                     JumpSound.Play();
                 }
 
-                Moving = false;
+                isMoving = false;
             }
             else
             {
@@ -128,11 +147,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (!Moving || !isGrounded)
+        if (!isMoving || !isGrounded)
         {
             WalkSound.Stop();
         }
-        else if (!WalkSound.isPlaying && isGrounded && Moving)
+        else if (!WalkSound.isPlaying && isGrounded && isMoving)
         {
             WalkSound.pitch = Random.Range(0.95f, 1.05f);
             WalkSound.Play();

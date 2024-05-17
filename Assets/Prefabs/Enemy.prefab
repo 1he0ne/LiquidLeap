@@ -171,7 +171,6 @@ MonoBehaviour:
   GroundCheckEnemy: {fileID: 9098534994943655545}
   PosA: {fileID: 0}
   PosB: {fileID: 0}
-  Animator: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -221,7 +220,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

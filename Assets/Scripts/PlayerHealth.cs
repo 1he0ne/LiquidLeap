@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if ( collision.collider.gameObject.tag == "Enemy" )
         {
             Damage(20);
-            Audio.PlayOneShot(Clip);
+            Audio.PlayOneShot(Clip, 0.5f);
             Animator.SetTrigger("PlayerHurt");
             Debug.Log("Ouch!");
         }

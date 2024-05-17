@@ -58,7 +58,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public void Die()
     {
         // Spawn particles
-        AudioSource.PlayOneShot(ClipDie);
         Instantiate(Particle,transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -66,6 +65,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     IEnumerator PlayHurtSound()
     {
         yield return new WaitForSeconds(0.1f);
-        AudioSource.PlayOneShot(ClipHurt);
+        AudioSource.PlayOneShot(ClipHurt, 0.8f);
     }
 }

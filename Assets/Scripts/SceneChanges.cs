@@ -28,6 +28,6 @@ public class SceneChanges : MonoBehaviour
     public IEnumerator ReloadSceneAfterDeath()
     {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

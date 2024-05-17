@@ -44,7 +44,10 @@ public class PlayerShootRay : MonoBehaviour
         CheckRayFire();
 
         float rayCooldownUIText = isRayFiring ? fireRayMaxTime - (Time.time - fireRayStartTime) : fireRayMaxTime;
-        RayStatsUI.text = string.Format("Ray duration: {0:0.0}s\nRay cooldown: {1:0.0}s", isRayRecharging ? 0 : rayCooldownUIText, rechargeRayTimer);
+        if (RayStatsUI)
+        {
+            RayStatsUI.text = string.Format("Ray duration: {0:0.0}s\nRay cooldown: {1:0.0}s", isRayRecharging ? 0 : rayCooldownUIText, rechargeRayTimer);
+        }
     }
 
 

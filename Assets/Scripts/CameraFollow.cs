@@ -4,7 +4,13 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform PlayerPosition;
     public Vector3 Offset;
-    public Camera Camera;
+
+    private Camera Camera;
+
+    private void Start()
+    {
+        Camera = GetComponent<Camera>();
+    }
     void Update()
     {
         // Camera.transform.position = new Vector3(0, 0, -10);

@@ -2,17 +2,22 @@ using UnityEngine;
 
 
 public class PlayerHealth : MonoBehaviour, IDamageable
-{
+{ 
     public int Health { get; set; }
 
-    public ParticleSystem Particle;
-    public AudioSource Audio;
-    public AudioClip Clip;
-    public Animator Animator;
+    private AudioSource Audio;
+    private Animator Animator;
+    private ParticleSystem Particle;
+    private AudioClip Clip;
 
     void Start()
     {
         Health = 100;
+
+        Audio = gameObject.AddComponent<AudioSource>();
+        Animator = GetComponent<Animator>();
+        Particle = Resources.Load<ParticleSystem>("PlayerDeathParticles");
+        Clip = Resources.Load<AudioClip>("SFX/PlayerHurt");
     }
     public void Damage(int value)
     {
@@ -22,7 +27,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        if (Health <= 0)
+        if ( Health <= 0 )
         {
             Die();
         }

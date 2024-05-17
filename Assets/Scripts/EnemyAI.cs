@@ -5,7 +5,7 @@ public class EnemyAI : MonoBehaviour
     public float Speed;
     public float ChaseSpeed;
     public float ChaseDistance;
-    public Rigidbody2D EnemyRb;
+
     public GameObject GroundCheckEnemy;
 
     public GameObject PosA;
@@ -13,20 +13,25 @@ public class EnemyAI : MonoBehaviour
 
     public Animator Animator;
     public Transform CurrentPos;
-    public Transform PlayerPosition;
+
     public LayerMask GroundLayer;
     public bool PlayerInSight = false;
 
+    private GameObject Player;
+    // private Rigidbody2D EnemyRb;
+
     void Start()
     {
-        EnemyRb = GetComponent<Rigidbody2D>();
+        // EnemyRb = GetComponent<Rigidbody2D>();
         CurrentPos = PosB.transform;
+
+        Player = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
     void Update()
     {
-        
-        float distanceToPlayer = Vector2.Distance(transform.position, PlayerPosition.position);
+
+        float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
 
         if ( distanceToPlayer > ChaseDistance )
         {
@@ -51,7 +56,7 @@ public class EnemyAI : MonoBehaviour
 
         if ( Vector2.Distance(transform.position, CurrentPos.position) < 0.5f )
         {
-            if ( CurrentPos == PosB.transform )
+            if (CurrentPos == PosB.transform)
             {
                 CurrentPos = PosA.transform;
             }
@@ -69,18 +74,18 @@ public class EnemyAI : MonoBehaviour
     void ChasePlayer()
     {
         Animator.SetTrigger("Idle");
-        Vector3 direction = PlayerPosition.position - transform.position;
+        Vector3 direction = Player.transform.position - transform.position;
         direction.Normalize();
 
         // Flip the sprite to face the player
         FlipSprite(direction);
 
         // Move towards the player
-        if ( transform.position.x > PlayerPosition.position.x )
+        if ( transform.position.x > Player.transform.position.x )
         {
             transform.position += Vector3.left * ChaseSpeed * Time.deltaTime;
         }
-        else if ( transform.position.x < PlayerPosition.position.x )
+        else if ( transform.position.x < Player.transform.position.x )
         {
             transform.position += Vector3.right * ChaseSpeed * Time.deltaTime;
         }

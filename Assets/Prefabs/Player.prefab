@@ -149,19 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d056aca0074d34fb6ae0cb34c8f797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGrounded: 0
+  isMoving: 0
   PlayerRenderer: {fileID: 7079416471280056209}
-  ParachuteRendererL: {fileID: 4044165527516436339}
-  ParachuteRendererR: {fileID: 2340265304827574774}
   MovementSpeed: 4
   JumpForce: 6
   GroundLayers:
     serializedVersion: 2
     m_Bits: 576
-  GroundCheck1: {fileID: 4653514124908791395}
-  GroundCheck2: {fileID: 8044370928312486836}
-  isParachuteActive: 0
-  isGrounded: 0
-  Moving: 0
 --- !u!114 &6122347525163194706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,12 +169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46c97849173d074aa148ff4993d9e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
+  PlayerSprite: {fileID: 7079416471280056209}
   Force: 10.7
   GunFillUI: {fileID: 0}
-  WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
-  AimingPoint: {fileID: 3076060709633504291}
-  PlayerSprite: {fileID: 7079416471280056209}
-  Gun: {fileID: 5611153952659924030}
   shootCooldownMax: 0.02
 --- !u!114 &6477052118265748162
 MonoBehaviour:
@@ -193,7 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2342a941a5442e447a01c92826379eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayStatsUI: {fileID: 0}
+  IcePrefab: {fileID: 7361224163324081676, guid: 2dadcac2da85b8d40869d87bfe932204, type: 3}
+  SteamPrefab: {fileID: 7361224163324081676, guid: d62b7e03c5d299d4bb407cdcdd5e3ac1, type: 3}
   RayStopLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -203,12 +197,10 @@ MonoBehaviour:
   DeviceLayer:
     serializedVersion: 2
     m_Bits: 2048
-  IcePrefab: {fileID: 7361224163324081676, guid: 2dadcac2da85b8d40869d87bfe932204, type: 3}
-  SteamPrefab: {fileID: 7361224163324081676, guid: d62b7e03c5d299d4bb407cdcdd5e3ac1, type: 3}
-  fireRayMaxTime: 2
-  rechargeRayTime: 3
   iceColor: {r: 0, g: 0.94637656, b: 1, a: 1}
   heatColor: {r: 1, g: 0, b: 0, a: 1}
+  fireRayMaxTime: 1
+  rechargeRayTime: 3
   freezeRaySFX: {fileID: 7911343228206776350}
   heatRaySFX: {fileID: 3186205865812614469}
 --- !u!95 &1583189731608438255
@@ -244,8 +236,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af2ccc87ee0e1c40a06569bb5945f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1583189731608438255}
-  PlayerMovement: {fileID: 4666908705655931285}
 --- !u!50 &4245712682182781407
 Rigidbody2D:
   serializedVersion: 4
@@ -1424,11 +1414,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}
---- !u!212 &4044165527516436339 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8892393127103217300, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}
-  m_PrefabInstance: {fileID: 4861604400334105063}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6998805973860142112 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2474485561712387527, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}
@@ -1495,11 +1480,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}
---- !u!212 &2340265304827574774 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8892393127103217300, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}
-  m_PrefabInstance: {fileID: 6562424749420939106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8738470952264049317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2474485561712387527, guid: e93e5f4fccc44434da711472271b5d3a, type: 3}

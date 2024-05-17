@@ -1,12 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     public int Health { get; set; }
 
     public ParticleSystem Particle;
+    public AudioSource Audio;
+    public AudioClip Clip;
+    public Animator Animator;
 
     void Start()
     {
@@ -31,8 +33,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if ( collision.collider.gameObject.tag == "Enemy" )
         {
             Damage(20);
-            //PlaySound;
-            //Animation;
+            Audio.PlayOneShot(Clip);
+            Animator.SetTrigger("PlayerHurt");
             Debug.Log("Ouch!");
         }
         

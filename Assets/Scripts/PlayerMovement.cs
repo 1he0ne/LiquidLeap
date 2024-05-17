@@ -39,8 +39,8 @@ public class PlayerMovement : MonoBehaviour
         ParachuteRendererL = transform.Find("WingsAnimSpriteL").GetComponent<SpriteRenderer>();
         ParachuteRendererR = transform.Find("WingsAnimSpriteR").GetComponent<SpriteRenderer>();
 
-        GroundCheck1 = transform.Find("GroundCheck1").GetComponent<Transform>();
-        GroundCheck2 = transform.Find("GroundCheck2").GetComponent<Transform>();
+        GroundCheck1 = GameObject.Find("GroundCheck1").GetComponent<Transform>();
+        GroundCheck2 = GameObject.Find("GroundCheck2").GetComponent<Transform>();
 
         if ( GroundCheck1 == null || GroundCheck2 == null )
         {

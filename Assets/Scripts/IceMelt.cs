@@ -6,6 +6,7 @@ public class IceMelt : MonoBehaviour
     void OnDestroy()
     {
         var water = Instantiate(WaterPrefab, transform.position, transform.rotation);
-        Destroy(water, StaticConstants.WaterDestroyTime);
+        // the spawned particles should not extend their lifetime just when being frozen
+        Destroy(water,  StaticConstants.WaterDestroyTime - StaticConstants.IceMeltTime); 
     }
 }

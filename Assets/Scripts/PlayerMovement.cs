@@ -14,10 +14,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform GroundCheck1;
     [SerializeField] private Transform GroundCheck2;
 
-
+    [SerializeField] private bool isParachuteActive = false;
     public bool isGrounded = false;
     public bool Moving = false;
-    [SerializeField] private bool isParachuteActive = false;
 
     private float MoveDir;
 
@@ -49,37 +48,34 @@ public class PlayerMovement : MonoBehaviour
             // oof make sure we only ever trigger on steam!
             Destroy(collision.gameObject);
             Rb.AddForce(new Vector2(0, JumpForce / 5.0f), ForceMode2D.Impulse);
-            if(!SteamBoostSound.isPlaying)
+            if (!SteamBoostSound.isPlaying)
             {
                 SteamBoostSound.pitch = Random.Range(0.98f, 1.02f);
                 SteamBoostSound.volume = Random.Range(0.3f, 0.5f);
                 SteamBoostSound.Play();
             }
-
         }
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         Moving = false;
 
-        if (Input.GetKey(KeyCode.D))
+        MoveDir = Input.GetAxis("Horizontal");
+        Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
+
+        if (Rb.velocity.x > 0.1f)
         {
-            MoveDir = Input.GetAxis("Horizontal");
-            Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
             PlayerRenderer.flipX = false;
         }
-
-        if (Input.GetKey(KeyCode.A))
+        else if (Rb.velocity.x < -0.1f)
         {
-            MoveDir = Input.GetAxis("Horizontal");
-            Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
             Moving = true;
             PlayerRenderer.flipX = true;
-
         }
+
 
         bool wasGrounded = isGrounded;
 
@@ -92,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
         bool wasParachuteActive = parachuteCooldown <= 0;
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetButton("Jump"))
         {
             if (isGrounded)
             {
@@ -100,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
                 if (Rb.velocity.y <= 0.01)
                 {
                     Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
-                    //Rb.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+
                     JumpSound.pitch = Random.Range(0.85f, 0.9f);
                     JumpSound.Play();
                 }

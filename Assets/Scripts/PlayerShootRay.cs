@@ -22,25 +22,17 @@ public class PlayerShootRay : MonoBehaviour
     private float fireRayStartTime;
     private float rechargeRayTimer = 0f;
 
-    private LineRenderer beam;
-
     public Color iceColor = Color.blue;
     public Color heatColor = Color.red;
 
     [SerializeField] private AudioSource freezeRaySFX;
     [SerializeField] private AudioSource heatRaySFX;
 
+    private LineRenderer beam;
 
-    // private LineRenderer RayGraphics;
-
-    // Start is called before the first frame update
     void Start()
     {
-        // RayGraphics = GetComponent<LineRenderer>();
-        // RayGraphics.startWidth = 0.07f;
-        // RayGraphics.endWidth = 0.05f;
-
-        beam = this.gameObject.AddComponent<LineRenderer>();
+        beam = gameObject.AddComponent<LineRenderer>();
         beam.startWidth = 0.05f;
         beam.endWidth = 0.05f;
         beam.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
@@ -71,14 +63,14 @@ public class PlayerShootRay : MonoBehaviour
 
     private void CheckRayFire()
     {
-        if ((Input.GetMouseButtonDown(2) || Input.GetMouseButtonDown(1)) && !isRayRecharging)
+        if ((Input.GetButtonDown("Fire3") || Input.GetButtonDown("Fire2")) && !isRayRecharging)
         {
             StartFiringRay();
         }
 
         if (isRayFiring)
         {
-            if (Input.GetMouseButtonUp(2) || Input.GetMouseButtonUp(1) || (Time.time - fireRayStartTime) >= fireRayMaxTime)
+            if (Input.GetButtonUp("Fire3") || Input.GetButtonUp("Fire2") || (Time.time - fireRayStartTime) >= fireRayMaxTime)
             {
                 StopFiringRay();
                 freezeRaySFX.Stop();
@@ -86,7 +78,7 @@ public class PlayerShootRay : MonoBehaviour
             }
             else
             {
-                if (Input.GetMouseButton(2))
+                if (Input.GetButton("Fire3"))
                 {
                     HeatRay();
                     if(!heatRaySFX.isPlaying)
@@ -94,7 +86,7 @@ public class PlayerShootRay : MonoBehaviour
                         heatRaySFX.Play();
                     }
                 }
-                else if (Input.GetMouseButton(1))
+                else if (Input.GetButton("Fire2"))
                 {
                     FreezeRay();
                     if (!freezeRaySFX.isPlaying)
@@ -122,7 +114,6 @@ public class PlayerShootRay : MonoBehaviour
     }
 
 
-
     private List<RaycastHit2D> GetParticlesInRay(LayerMask rayParticleLayers, Color rayColor)
     {
         Vector2 AimPos = PlayerShoot.AimPos;
@@ -140,9 +131,6 @@ public class PlayerShootRay : MonoBehaviour
             // Debug.Log(maxRayDist);
         }
 
-        // TODO: make it a "real" line, or some way for the player to see what's happening
-        //Debug.DrawLine(rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist), rayColor);
-        //RayGraphics.SetPositions(new Vector3[]{ rayStartPos, rayStartPos + (AimDirectionNorm * maxRayDist)});
         beam.SetPosition(0, rayStartPos);
         beam.SetPosition(1, rayStartPos + (AimDirectionNorm * maxRayDist));
 
@@ -153,8 +141,6 @@ public class PlayerShootRay : MonoBehaviour
         tempGradient.colorKeys = tempColorKeys;
 
         beam.colorGradient = tempGradient;
-
-
 
         // cast ray again, this time, hit the particle layer
         var waterHits = Physics2D.RaycastAll(rayStartPos, AimDirectionNorm, maxRayDist, rayParticleLayers);

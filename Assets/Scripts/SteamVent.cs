@@ -12,7 +12,6 @@ public class SteamVent : MonoBehaviour
     private const int emitterCooldownMax = 5;
     private int emitterCooldown;
 
-
     private void FixedUpdate()
     {
         if (emitterCooldown <= 0)
@@ -34,9 +33,8 @@ public class SteamVent : MonoBehaviour
                 default:
                     break;
             }
-
-
         }
         emitterCooldown--;
     }
+
 }

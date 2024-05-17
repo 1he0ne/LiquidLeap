@@ -3,7 +3,8 @@ guid: 481b1b6739335924bb1520ba7c24ac19
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - WaterPrefab: {fileID: 7361224163324081676, guid: a582c370648b1fc4bb4624c9dc7a2673, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

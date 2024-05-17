@@ -4617,14 +4617,6 @@ PrefabInstance:
       propertyPath: RayStatsUI
       value: 
       objectReference: {fileID: 1056164963}
-    - target: {fileID: 6477052118265748162, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
-      propertyPath: fireRayMaxTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6477052118265748162, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
-      propertyPath: rechargeRayTime
-      value: 5.5
-      objectReference: {fileID: 0}
     - target: {fileID: 9124755250492018254, guid: 53498fc11f3ff4c41ac53bfbf4bb507d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.93

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RevertToWater: MonoBehaviour
@@ -11,7 +10,8 @@ public class RevertToWater: MonoBehaviour
         if (turnToWater)
         {
             var water = Instantiate(WaterPrefab, transform.position, transform.rotation);
-            Destroy(water, StaticConstants.WaterDestroyTime);
+            // the spawned particles should not extend their lifetime just when being heated
+            Destroy(water, StaticConstants.WaterDestroyTime - StaticConstants.SteamCondenseTime);
         }
     }
 

@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private Animator Animator;
     private ParticleSystem Particle;
     private AudioClip Clip;
+    private Sprite HeartSprite;
 
     void Start()
     {
@@ -18,6 +19,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Animator = GetComponent<Animator>();
         Particle = Resources.Load<ParticleSystem>("PlayerDeathParticles");
         Clip = Resources.Load<AudioClip>("SFX/PlayerHurt");
+
+        HeartSprite = Resources.Load<Sprite>("pixel_heart");
     }
     public void Damage(int value)
     {
@@ -45,7 +48,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         
         if ( collision.collider.gameObject.tag == "Death" )
         {
-            Die();
+            Damage(9999);
         }
     }
 

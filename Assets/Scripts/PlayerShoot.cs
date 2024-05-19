@@ -19,7 +19,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float Force;
     [SerializeField] private TextMeshProUGUI GunFillUI;
 
-    [SerializeField] private const float shootWaterTankMax = 36; // max tank fill state
+    [SerializeField] private const float shootWaterTankMax = 45; // max tank fill state
     [SerializeField] private float shootCooldownMax = 0.02f; // time between individual bullets
 
     private float shootWaterTank = shootWaterTankMax; // current fill state
@@ -124,26 +124,25 @@ public class PlayerShoot : MonoBehaviour
     void Shoot()
     {
         // if gun is cooling down, or the tank is empty, don't shoot
-        if (shootCooldown > 0 || shootWaterTank < 1) return;
-
-        
-
-        shootWaterTank--; // deplete the tank
-        shootCooldown += shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
-
-        // Creates the water locally
-        GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);
-
-        // Adds velocity to the bullet
-        var waterVelocity = AimDirectionNorm * Force;
-
-        // Reduce velocity as tank depletes
-        if (waterFillPercent < 0.9f)
+        while (shootCooldown <= 0 && shootWaterTank >= 1)
         {
-            waterVelocity *= waterFillPercent / 0.9f;
-        }
+            shootWaterTank--; // deplete the tank
+            shootCooldown += shootCooldownMax; // pause briefly between water droplets (frame independent fire rate)
 
-        waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;
-        Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
+            // Creates the water locally
+            GameObject waterParticle = Instantiate(WaterPrefab, AimPos + (AimDirectionNorm * 0.75f), Quaternion.identity);
+
+            // Adds velocity to the bullet
+            var waterVelocity = AimDirectionNorm * Force;
+
+            // Reduce velocity as tank depletes
+            if (waterFillPercent < 0.9f)
+            {
+                waterVelocity *= waterFillPercent / 0.9f;
+            }
+
+            waterParticle.GetComponent<Rigidbody2D>().velocity = waterVelocity;
+            Destroy(waterParticle.gameObject, StaticConstants.WaterDestroyTime);
+        }
     }
 }

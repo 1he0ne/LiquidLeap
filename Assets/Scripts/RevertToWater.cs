@@ -4,7 +4,7 @@ public class RevertToWater: MonoBehaviour
 {
     public GameObject WaterPrefab; // TODO: should be loaded from Resources
 
-    public bool turnToWater; // maybe should be set with a setter?
+    public bool turnToWater = false; // maybe should be set with a setter?
     void OnDestroy()
     {
         if ( turnToWater )

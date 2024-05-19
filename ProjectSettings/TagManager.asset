@@ -12,6 +12,8 @@ TagManager:
   - Death
   - Ground
   - UI
+  - ExtraLife
+  - UIHeart
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Steam
   - Devices
   - Enemy
-  - 
+  - Pickup
   - 
   - 
   - 

@@ -206,7 +206,6 @@ MonoBehaviour:
   iceColor: {r: 0, g: 0.94637656, b: 1, a: 1}
   heatColor: {r: 1, g: 0, b: 0, a: 1}
   fireRayMaxTime: 1
-  rechargeRayTime: 3
   freezeRaySFX: {fileID: 7911343228206776350}
   heatRaySFX: {fileID: 3186205865812614469}
 --- !u!95 &1583189731608438255
@@ -816,7 +815,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.12}
   serializedVersion: 2
   m_Radius: 0.5
 --- !u!82 &7911343228206776350

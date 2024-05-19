@@ -17,7 +17,7 @@ public class PlayerShootRay : MonoBehaviour
     [SerializeField] private Color heatColor = Color.red;
 
     [SerializeField] private float fireRayMaxTime = 1.0f; // Maximum time the ray can fire before it needs to recharge
-    [SerializeField] private float rechargeRayTime = 4.0f; // Time required to recharge, should be longer than ice-unfreeze-time
+    private float rechargeRayTime = 4.0f; // Time required to recharge, should be longer than ice-unfreeze-time
 
     [SerializeField] private AudioSource freezeRaySFX;
     [SerializeField] private AudioSource heatRaySFX;

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private SpriteRenderer PlayerRenderer;
 
-    [SerializeField] private float MovementSpeed;
+    public float MovementSpeed;
     [SerializeField] private float JumpForce;
     [SerializeField] private LayerMask GroundLayers;
 

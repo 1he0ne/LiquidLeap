@@ -20,11 +20,12 @@ public class EnemyAI : MonoBehaviour
     private GameObject Player;
     private Transform CurrentPos;
 
+
+
     void Start()
     {
         CurrentPos = PosB.transform;
 
-        // Player = GameObject.FindGameObjectsWithTag("Player")[0];
         Player = GameObject.Find("Player");
 
         Animator = GetComponent<Animator>();
@@ -32,11 +33,12 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if( !Player ) return; // early exit, if there's no player
 
-        // float distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
         Vector2 enemyToPlayerVec = Player.transform.position - transform.position;
-
-        if (enemyToPlayerVec.magnitude > ChaseDistance )
+        
+        
+        if ( enemyToPlayerVec.magnitude > ChaseDistance )
         {
             PlayerInSight = false;
         }
@@ -62,6 +64,21 @@ public class EnemyAI : MonoBehaviour
         } else
         {
             Patrol();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer != 9) return;
+
+        // flip direction on ice
+        if (CurrentPos == PosB.transform)
+        {
+            CurrentPos = PosA.transform;
+        }
+        else
+        {
+            CurrentPos = PosB.transform;
         }
     }
 

@@ -194,6 +194,12 @@ MonoBehaviour:
   LiquidParticleLayers:
     serializedVersion: 2
     m_Bits: 256
+  SteamParticleLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  IceParticleLayers:
+    serializedVersion: 2
+    m_Bits: 512
   DeviceLayer:
     serializedVersion: 2
     m_Bits: 2048

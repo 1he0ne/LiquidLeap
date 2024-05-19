@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         
         if ( collision.collider.gameObject.tag == "Death" )
         {
-            Die();
+            Damage(9999);
         }
     }
 

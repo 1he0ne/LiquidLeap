@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private AudioSource WingFlapSound;
     private AudioSource SteamBoostSound;
 
-    private const float parachuteCooldownMax = 1.0f;
+    private const float parachuteCooldownMax = 0.70f;
     private float parachuteCooldown = 0.0f;
 
     void Start()
@@ -62,11 +63,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        const float maxUpSpeed = 4.0f;
+
         if (isParachuteActive && collision.gameObject.layer == 10) // steam is layer 10
         {
             // oof make sure we only ever trigger on steam!
             Destroy(collision.gameObject);
-            Rb.AddForce(new Vector2(0, JumpForce / 5.0f), ForceMode2D.Impulse);
+            Rb.AddForce(new Vector2(0, JumpForce / 3.0f), ForceMode2D.Impulse);
+
+            if(Rb.velocity.y > maxUpSpeed)
+            {
+                Rb.velocity = new Vector2(Rb.velocity.x, maxUpSpeed);
+            }
             if (!SteamBoostSound.isPlaying)
             {
                 SteamBoostSound.pitch = Random.Range(0.98f, 1.02f);
@@ -82,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         isMoving = false;
 
         MoveDir = Input.GetAxis("Horizontal");
+
         Rb.velocity = new Vector2(MoveDir * MovementSpeed, Rb.velocity.y);
 
         if (Rb.velocity.x > 0.1f)
@@ -143,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         {
             WalkSound.pitch = Random.Range(0.95f, 1.05f);
             WingFlapSound.Play();
-            Rb.velocity = new Vector2(Rb.velocity.x, JumpForce / 5.0f); // add a small upward boost
+            Rb.velocity = new Vector2(Rb.velocity.x, JumpForce / 4.0f); // add a small upward boost when opening wings
         }
 
 

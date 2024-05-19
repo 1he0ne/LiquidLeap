@@ -9,13 +9,15 @@ public class PlayerShootRay : MonoBehaviour
 
     [SerializeField] private LayerMask RayStopLayers;
     [SerializeField] private LayerMask LiquidParticleLayers;
+    [SerializeField] private LayerMask SteamParticleLayers;
+    [SerializeField] private LayerMask IceParticleLayers;
     [SerializeField] private LayerMask DeviceLayer;
 
     [SerializeField] private Color iceColor = Color.blue;
     [SerializeField] private Color heatColor = Color.red;
 
     [SerializeField] private float fireRayMaxTime = 1.0f; // Maximum time the ray can fire before it needs to recharge
-    [SerializeField] private float rechargeRayTime = 3.0f; // Time required to recharge, should be longer than ice-unfreeze-time
+    [SerializeField] private float rechargeRayTime = 4.0f; // Time required to recharge, should be longer than ice-unfreeze-time
 
     [SerializeField] private AudioSource freezeRaySFX;
     [SerializeField] private AudioSource heatRaySFX;
@@ -159,9 +161,10 @@ public class PlayerShootRay : MonoBehaviour
     }
     void FreezeRay()
     {
-        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers, iceColor))
+        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers | SteamParticleLayers, iceColor))
         {
             var tempIce = Instantiate(IcePrefab, hit.transform.position, hit.transform.rotation);
+            tempIce.transform.position = new Vector2(hit.transform.position.x + Random.Range(-0.05f, 0.05f), hit.transform.position.y);
             Destroy(hit.transform.gameObject);
 
             Destroy(tempIce, StaticConstants.IceMeltTime);
@@ -175,14 +178,16 @@ public class PlayerShootRay : MonoBehaviour
 
     void HeatRay()
     {
-        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers, heatColor))
+        foreach (RaycastHit2D hit in GetParticlesInRay(LiquidParticleLayers | IceParticleLayers, heatColor))
         {
             var tempSteam = Instantiate(SteamPrefab, hit.transform.position, hit.transform.rotation);
+            tempSteam.transform.position = new Vector2(hit.transform.position.x + Random.Range(-0.05f, 0.05f), hit.transform.position.y);
             Destroy(hit.transform.gameObject);
 
             tempSteam.GetComponent<RevertToWater>().turnToWater = true;
             Destroy(tempSteam, StaticConstants.SteamCondenseTime);
         }
+
 
         foreach (RaycastHit2D hit in GetParticlesInRay(DeviceLayer, heatColor))
         {

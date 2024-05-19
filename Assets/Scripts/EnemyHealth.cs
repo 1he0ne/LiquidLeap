@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
@@ -8,7 +7,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private ParticleSystem Particle;
 
     private AudioClip ClipHurt;
-    private AudioClip ClipDie;
 
     private Animator Animator;
     private AudioSource AudioSource;
@@ -20,7 +18,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         Animator = GetComponent<Animator>();
         AudioSource = GetComponent<AudioSource>();
         ClipHurt = Resources.Load<AudioClip>("SFX/EnemyHurt");
-        ClipDie = Resources.Load<AudioClip>("SFX/EnemyDie");
 
         Particle = Resources.Load<ParticleSystem>("EnemyDeathParticles");
     }
@@ -33,7 +30,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         if ( Health <= 0 )
         {
-            Debug.Log("Enemy Died");
+            // Debug.Log("Enemy Died");
             Animator.SetTrigger("Die");
             Die();
         }
@@ -45,9 +42,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         {
             
             Damage(15);
-            Debug.Log("Enemy takes hit");
+            // Debug.Log("Enemy takes hit");
             Animator.SetTrigger("Hurt");
-            StartCoroutine(PlayHurtSound());
+            AudioSource.PlayOneShot(ClipHurt, 0.8f);
+            // StartCoroutine(PlayHurtSound());
         }
 
         if ( collision.collider.gameObject.tag == "Death" )
@@ -62,9 +60,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         Destroy(gameObject);
     }
 
-    IEnumerator PlayHurtSound()
-    {
-        yield return new WaitForSeconds(0.1f);
-        AudioSource.PlayOneShot(ClipHurt, 0.8f);
-    }
+    //IEnumerator PlayHurtSound()
+    //{
+    //    // yield return new WaitForSeconds(0.1f);
+    //    AudioSource.PlayOneShot(ClipHurt, 0.8f);
+    //}
 }

@@ -173,7 +173,7 @@ MonoBehaviour:
   PosB: {fileID: 0}
   RayTestLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 584
   PlayerInSight: 0
 --- !u!114 &6319729903315760060
 MonoBehaviour:

@@ -19,15 +19,20 @@ public class SceneChanges : MonoBehaviour
 
     private void Update()
     {
-        if( Health.Health <= 0 ) 
+        if( Health == null || Health.Health <= 0 ) 
         {
             StartCoroutine(ReloadSceneAfterDeath());
+        }
+        // Reset immediately, when pressing the reset btn
+        if ( Input.GetButtonDown("Reset") )
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
     public IEnumerator ReloadSceneAfterDeath()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

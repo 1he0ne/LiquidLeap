@@ -56,5 +56,4 @@ public class SteamVent : MonoBehaviour
         }
         emitterCooldown--;
     }
-
 }

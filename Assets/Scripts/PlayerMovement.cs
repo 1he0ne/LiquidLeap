@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private const float parachuteCooldownMax = 0.70f;
     private float parachuteCooldown = 0.0f;
 
+    private const float maxUpSpeed = 4.0f;
+
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -63,18 +66,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        const float maxUpSpeed = 4.0f;
-
-        if (isParachuteActive && collision.gameObject.layer == 10) // steam is layer 10
+        if ( isParachuteActive && collision.gameObject.layer == 10 ) // steam is layer 10
         {
             // oof make sure we only ever trigger on steam!
             Destroy(collision.gameObject);
             Rb.AddForce(new Vector2(0, JumpForce / 3.0f), ForceMode2D.Impulse);
 
-            if(Rb.velocity.y > maxUpSpeed)
+            if( Rb.velocity.y > maxUpSpeed )
             {
                 Rb.velocity = new Vector2(Rb.velocity.x, maxUpSpeed);
             }
+
             if (!SteamBoostSound.isPlaying)
             {
                 SteamBoostSound.pitch = Random.Range(0.98f, 1.02f);
@@ -147,6 +149,10 @@ public class PlayerMovement : MonoBehaviour
 
 
         Rb.gravityScale = isParachuteActive ? 0.5f : 1.0f;
+        if( isParachuteActive && Rb.velocity.y <= -maxUpSpeed / 2.0f)
+        {
+            Rb.velocity = new Vector2(Rb.velocity.x, -maxUpSpeed / 2.0f); // don't fall fast with wings
+        }
 
         if (!wasParachuteActive && isParachuteActive)
         {

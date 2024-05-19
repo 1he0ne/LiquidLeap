@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6319729903315760060}
   - component: {fileID: 6895950887402396068}
   - component: {fileID: -2832138505991898275}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -171,9 +171,9 @@ MonoBehaviour:
   GroundCheckEnemy: {fileID: 9098534994943655545}
   PosA: {fileID: 0}
   PosB: {fileID: 0}
-  GroundLayer:
+  RayTestLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   PlayerInSight: 0
 --- !u!114 &6319729903315760060
 MonoBehaviour:
@@ -313,7 +313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8112532773378770449}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GroundCheckEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private AudioClip PickupSFX;
 
     private GameObject[] Hearts;
+    private GameEndScript GameEnd;
 
 
     void Start()
@@ -29,6 +30,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
                                  .ThenBy(heart => -heart.transform.position.x) // Then by x position (left to right)
                                  .ToArray();
         UpdateHealthBarHeartCount(Health);
+
+        GameEnd = GameObject.Find("GameEnd").GetComponent<GameEndScript>();
     }
     public void Damage(int value)
     {
@@ -69,6 +72,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if ( collision.collider.gameObject.tag == "Ruby" )
         {
+            var pickup = collision.collider.gameObject.GetComponent<RubyPickUp>();
+            PersistentStorage.RubiesFound[pickup.RubyID] = true;
+            
+
             Destroy(collision.collider.gameObject);
             Audio.PlayOneShot(PickupSFX, 0.5f);
             Damage(-2);
@@ -77,6 +84,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        switch(GameEnd.LevelId)
+        {
+            case 0:
+                PersistentStorage.RubiesFound[0] = false;
+                break;
+            case 1:
+                PersistentStorage.RubiesFound[1] = false;
+                break;
+            case 2:
+                PersistentStorage.RubiesFound[2] = false;
+                PersistentStorage.RubiesFound[3] = false;
+                break;
+        }
+
         Instantiate(Particle, transform.position, Quaternion.identity);
         Destroy(gameObject);
 

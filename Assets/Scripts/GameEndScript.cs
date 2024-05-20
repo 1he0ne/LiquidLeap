@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameEndScript : MonoBehaviour
 {
     [SerializeField] private string SceneToLoad;
-    [SerializeField] private int LevelId;
+    public int LevelId; // public is bad, but not enough time to fix
 
     private AudioClip NextLevelSFX;
     private AudioSource Source;
@@ -28,6 +28,8 @@ public class GameEndScript : MonoBehaviour
 
             PlayerHealth health = collision.gameObject.transform.GetComponent<PlayerHealth>();
             PersistentStorage.NumPlayerLives = health.Health;
+
+            PersistentStorage.LevelFinished[LevelId] = true;
                         
             StartCoroutine(LoadLinkedScene());
         }

@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 public class SceneChanges : MonoBehaviour
 {
     private PlayerHealth Health;
+    public GameObject Image;
+    public AudioSource AudioSource;
+    public AudioClip PauseClip;
+    public AudioClip ResumeClip;
+
+    private bool isPaused = false;
+
+    public PlayerShoot PlayerShoot;
 
     private void Start()
     {
@@ -19,7 +27,7 @@ public class SceneChanges : MonoBehaviour
 
     private void Update()
     {
-        if( Health == null || Health.Health <= 0 ) 
+        if ( Health == null || Health.Health <= 0 )
         {
             StartCoroutine(ReloadSceneAfterDeath());
         }
@@ -28,11 +36,44 @@ public class SceneChanges : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        if ( Input.GetKeyDown(KeyCode.Escape) )
+        {
+            if ( isPaused )
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+
+        }
+
     }
 
     public IEnumerator ReloadSceneAfterDeath()
     {
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    void PauseGame()
+    {
+        Cursor.visible = true;
+        Image.SetActive(true);
+        Time.timeScale = 0;
+        isPaused = true;
+        PlayerShoot.enabled = false;
+        AudioSource.PlayOneShot(PauseClip);
+    }
+
+    void ResumeGame()
+    {
+        Cursor.visible = false;
+        Image.SetActive(false);
+        Time.timeScale = 1;
+        isPaused = false;
+        PlayerShoot.enabled = true;
+        AudioSource.PlayOneShot(ResumeClip);
     }
 }

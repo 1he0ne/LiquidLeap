@@ -32,6 +32,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Start()
     {
+        
         Gun = GameObject.Find("WaterGun");
         AimingPoint = transform.Find("AimingPoint");
 

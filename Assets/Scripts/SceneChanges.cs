@@ -16,6 +16,7 @@ public class SceneChanges : MonoBehaviour
 
     private void Start()
     {
+        AudioSource.volume = 0.5f;
         var tempPlayer = GameObject.FindGameObjectsWithTag("Player")[0];
         Health = tempPlayer.GetComponent<PlayerHealth>();
 
@@ -64,6 +65,7 @@ public class SceneChanges : MonoBehaviour
         Time.timeScale = 0;
         isPaused = true;
         PlayerShoot.enabled = false;
+        
         AudioSource.PlayOneShot(PauseClip);
     }
 
@@ -74,6 +76,7 @@ public class SceneChanges : MonoBehaviour
         Time.timeScale = 1;
         isPaused = false;
         PlayerShoot.enabled = true;
+
         AudioSource.PlayOneShot(ResumeClip);
     }
 }

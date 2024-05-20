@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5607889067112220561}
   - component: {fileID: 5607889067112220566}
   - component: {fileID: 4876930447134978818}
-  m_Layer: 0
+  - component: {fileID: 5073592581130144239}
+  m_Layer: 13
   m_Name: P_Rubi
-  m_TagString: Untagged
+  m_TagString: Ruby
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,3 +98,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00030413e33724aa35908140d8b551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RubyID: 2
+--- !u!58 &5073592581130144239
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607889067112220567}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

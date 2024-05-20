@@ -14,6 +14,6 @@ public class PersistentStorage : MonoBehaviour
 
     private const int numberOfLevels = 3; // Tutorial, Level 1, Level 2
     public static bool[] LevelFinished = new bool[numberOfLevels];
-    public static bool[] RubiesFound = new bool[numberOfLevels];
+    public static bool[] RubiesFound = new bool[numberOfLevels+1]; // there are 2 rubies in the last level...
 
 }

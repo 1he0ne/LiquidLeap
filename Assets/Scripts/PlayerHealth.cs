@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     void Start()
     {
-        Health = PersistentStorage.NumPlayerLives;
+        Health = Mathf.Max(PersistentStorage.NumPlayerLives, 1);
 
         Audio = gameObject.AddComponent<AudioSource>();
         Animator = GetComponent<Animator>();

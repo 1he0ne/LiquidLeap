@@ -14,7 +14,7 @@ public class PersistentStorage : MonoBehaviour
         if (BGM == null)
         {
             BGM = gameObject.AddComponent<AudioSource>();
-            BGM.volume = 0.5f;
+            BGM.volume = 0.3f;
             BGM.clip = Resources.Load<AudioClip>("Music/HealingWaves");
             BGM.loop = true;
             BGM.Play();

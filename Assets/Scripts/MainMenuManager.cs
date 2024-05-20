@@ -13,6 +13,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+
+
         Cursor.visible = true;
 
         ProgressText.text = string.Format("Progress: {0}%\n\n"
@@ -37,12 +39,10 @@ public class MainMenuManager : MonoBehaviour
     public void LoadTutorial()
     {
         StartCoroutine(PlayGame());
-        Debug.Log("Tutorial Loaded");
     }
     public void LoadGame()
     {
         StartCoroutine (PlayGameSoundDelayed());
-        Debug.Log("Game Loaded");
     }
 
     public void OnApplicationQuit()

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameEndScript : MonoBehaviour
 {
     [SerializeField] private string SceneToLoad;
+    [SerializeField] private int LevelId;
 
     private AudioClip NextLevelSFX;
     private AudioSource Source;
@@ -23,8 +24,11 @@ public class GameEndScript : MonoBehaviour
 
             PlayerMovement mov = collision.gameObject.transform.GetComponent<PlayerMovement>();
             mov.MovementSpeed = 0;
-            
-            
+            mov.SetRBEnabled(false);
+
+            PlayerHealth health = collision.gameObject.transform.GetComponent<PlayerHealth>();
+            PersistentStorage.NumPlayerLives = health.Health;
+                        
             StartCoroutine(LoadLinkedScene());
         }
     }

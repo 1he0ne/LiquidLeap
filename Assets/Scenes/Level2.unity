@@ -83384,7 +83384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e5c7ea7727c7b48baea29a98365165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Image: {fileID: 0}
+  Image: {fileID: 2024229085}
   AudioSource: {fileID: 1374631062}
   PauseClip: {fileID: 8300000, guid: fb5d208248c4a99499477733e6fae86d, type: 3}
   ResumeClip: {fileID: 8300000, guid: 6efa13f365d92f44b9d0949997524f88, type: 3}
@@ -103419,6 +103419,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2024229085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6254932246858272573, guid: 0786b0ef9ca1a7841b4a2518c21ba82a, type: 3}
+  m_PrefabInstance: {fileID: 313425951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2026533430
 GameObject:
   m_ObjectHideFlags: 0

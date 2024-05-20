@@ -1,14 +1,26 @@
 using UnityEngine;
 
+
 public class PersistentStorage : MonoBehaviour
 {
     public static PersistentStorage Instance;
+    public static AudioSource BGM;
 
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (BGM == null)
+        {
+            BGM = gameObject.AddComponent<AudioSource>();
+            BGM.volume = 0.5f;
+            BGM.clip = Resources.Load<AudioClip>("Music/HealingWaves");
+            BGM.loop = true;
+            BGM.Play();
+        }
     }
+
 
     public static int NumPlayerLives; // update this whenever loading / exiting a level
 

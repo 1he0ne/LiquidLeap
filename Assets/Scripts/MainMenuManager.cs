@@ -27,18 +27,18 @@ public class MainMenuManager : MonoBehaviour
 
     IEnumerator PlayGameSoundDelayed()
     {
-        AudioSource.PlayOneShot(PlayGameSound);
+        AudioSource.PlayOneShot(PlayGameSound, 0.5f);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Level1");
     }
     IEnumerator PlayGameQuitGameSound()
     {
-        AudioSource.PlayOneShot(EndGameSound);
+        AudioSource.PlayOneShot(EndGameSound, 0.5f);
         yield return new WaitForSeconds(1);
     }
     IEnumerator PlayGame()
     {
-        AudioSource.PlayOneShot(PlayGameSound);
+        AudioSource.PlayOneShot(PlayGameSound, 0.5f);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("LevelTutorial");
     }

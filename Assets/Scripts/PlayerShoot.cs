@@ -30,6 +30,8 @@ public class PlayerShoot : MonoBehaviour
     private AudioSource WaterHoseSFX;
     private AudioSource WaterPumpSFX;
 
+    private PlayerShootRay RayScript;
+
     private void Start()
     {
         
@@ -40,6 +42,8 @@ public class PlayerShoot : MonoBehaviour
         var GunAudioSources = Gun.GetComponents<AudioSource>();
 
         GunFillUI = GameObject.Find("GunFillUI").GetComponent<TextMeshProUGUI>();
+
+        RayScript = GetComponent<PlayerShootRay>();
 
         WaterHoseSFX = GunAudioSources[0];
         WaterPumpSFX = GunAudioSources[1];
@@ -90,7 +94,10 @@ public class PlayerShoot : MonoBehaviour
 
         if (GunFillUI)
         {
-            GunFillUI.text = string.Format("Fill status: {0:0}%", waterFillPercent * 100);
+            GunFillUI.text = string.Format("Water tank: {0:0}%", waterFillPercent * 100) + "\n" + RayScript.GetRayStatsText();
+
+
+
         }
     }
 

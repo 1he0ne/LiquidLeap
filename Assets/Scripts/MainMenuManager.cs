@@ -31,6 +31,7 @@ public class MainMenuManager : MonoBehaviour
 
     IEnumerator PlayGameSoundDelayed()
     {
+        PersistentStorage.NumPlayerLives = 4;
         AudioSource.PlayOneShot(PlayGameSound, 0.5f);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Level1");
@@ -42,6 +43,7 @@ public class MainMenuManager : MonoBehaviour
     }
     IEnumerator PlayGame()
     {
+        PersistentStorage.NumPlayerLives = 4;
         AudioSource.PlayOneShot(PlayGameSound, 0.5f);
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("LevelTutorial");

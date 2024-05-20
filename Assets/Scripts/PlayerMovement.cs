@@ -64,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
         SteamBoostSound = AudioSources[4];
     }
 
+    public void SetRBEnabled(bool enabled)
+    {
+        Rb.isKinematic = !enabled;
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if ( isParachuteActive && collision.gameObject.layer == 10 ) // steam is layer 10

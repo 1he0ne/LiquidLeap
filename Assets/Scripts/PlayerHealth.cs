@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Linq;
-using Unity.VisualScripting;
-
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 { 
@@ -15,19 +13,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private GameObject[] Hearts;
 
-    private PlayerShoot Player;
 
     void Start()
     {
-        Health = 4;
+        Health = PersistentStorage.NumPlayerLives;
 
         Audio = gameObject.AddComponent<AudioSource>();
         Animator = GetComponent<Animator>();
         Particle = Resources.Load<ParticleSystem>("PlayerDeathParticles");
         HurtSFX = Resources.Load<AudioClip>("SFX/PlayerHurt");
         PickupSFX = Resources.Load<AudioClip>("SFX/pickup");
-
-        Player = GameObject.Find("Player").GetComponent<PlayerShoot>();
 
         Hearts = GameObject.FindGameObjectsWithTag("UIHeart");
         Hearts = Hearts.OrderBy(heart => heart.transform.position.y)  // Sort by y position (top to bottom)

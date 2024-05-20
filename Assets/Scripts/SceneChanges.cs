@@ -79,4 +79,10 @@ public class SceneChanges : MonoBehaviour
 
         AudioSource.PlayOneShot(ResumeClip);
     }
+
+    public void BackToMainmenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
+    }
 }

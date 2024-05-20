@@ -16,10 +16,12 @@ public class MainMenuManager : MonoBehaviour
     public void LoadTutorial()
     {
         StartCoroutine(PlayGame());
+        Debug.Log("Tutorial Loaded");
     }
     public void LoadGame()
     {
         StartCoroutine (PlayGameSoundDelayed());
+        Debug.Log("Game Loaded");
     }
 
     public void OnApplicationQuit()

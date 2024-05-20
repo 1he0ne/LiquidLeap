@@ -85581,9 +85581,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5145938333403722400, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8354415707235066034}
+    - target: {fileID: 5145938333403722400, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToMainmenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145938333403722400, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneChanges, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145938333403722400, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9134960741393706721, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
       propertyPath: m_Name
       value: Image
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134960741393706721, guid: c04349f010c75b646b9adb9eac008f82, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -85945,6 +85965,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8354415707235066034 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4909267051941916323, guid: 6d84f60f60f59394fae5601ace79e8f3, type: 3}
+  m_PrefabInstance: {fileID: 8354415707235066031}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8354415707235066032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e5c7ea7727c7b48baea29a98365165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &8924800231482849287 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6895950887402396068, guid: af2a1423f91243d4b83ffe8fee15d24c, type: 3}

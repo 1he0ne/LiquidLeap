@@ -9,7 +9,11 @@ public class MainMenuManager : MonoBehaviour
     public AudioClip PlayGameSound;
     public AudioClip EndGameSound;
 
-   public void LoadTutorial()
+    private void Start()
+    {
+        Cursor.visible = true;
+    }
+    public void LoadTutorial()
     {
         StartCoroutine(PlayGame());
     }

@@ -4,8 +4,11 @@ public class RubyPickUp : MonoBehaviour
 {
     public int RubyID;
 
-    private void OnDestroy()
+    private void Start()
     {
-        PersistentStorage.RubiesFound[RubyID] = true;
+        if (PersistentStorage.RubiesFound[RubyID])
+        {
+            Destroy(gameObject);
+        }
     }
 }

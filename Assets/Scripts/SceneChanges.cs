@@ -60,7 +60,7 @@ public class SceneChanges : MonoBehaviour
     }
     void PauseGame()
     {
-        Cursor.visible = true;
+       
         Image.SetActive(true);
         Time.timeScale = 0;
         isPaused = true;
@@ -71,7 +71,7 @@ public class SceneChanges : MonoBehaviour
 
     void ResumeGame()
     {
-        Cursor.visible = false;
+        
         Image.SetActive(false);
         Time.timeScale = 1;
         isPaused = false;

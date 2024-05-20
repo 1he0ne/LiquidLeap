@@ -32,7 +32,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
+        
         Gun = GameObject.Find("WaterGun");
         AimingPoint = transform.Find("AimingPoint");
 

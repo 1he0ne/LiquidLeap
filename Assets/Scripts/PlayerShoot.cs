@@ -25,7 +25,7 @@ public class PlayerShoot : MonoBehaviour
     private float shootWaterTank = shootWaterTankMax; // current fill state
     private float shootCooldown = 0f; // time until the next individual bullet
 
-    private float waterFillPercent;
+    public float waterFillPercent;
 
     private AudioSource WaterHoseSFX;
     private AudioSource WaterPumpSFX;

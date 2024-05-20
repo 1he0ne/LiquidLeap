@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -14,6 +15,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private GameObject[] Hearts;
 
+    private PlayerShoot Player;
 
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         HurtSFX = Resources.Load<AudioClip>("SFX/PlayerHurt");
         PickupSFX = Resources.Load<AudioClip>("SFX/pickup");
 
+        Player = GameObject.Find("Player").GetComponent<PlayerShoot>();
 
         Hearts = GameObject.FindGameObjectsWithTag("UIHeart");
         Hearts = Hearts.OrderBy(heart => heart.transform.position.y)  // Sort by y position (top to bottom)
@@ -67,6 +70,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             Destroy(collision.collider.gameObject);
             Audio.PlayOneShot(PickupSFX, 0.5f);
             Damage(-1);
+        }
+
+        if ( collision.collider.gameObject.tag == "Ruby" )
+        {
+            Destroy(collision.collider.gameObject);
+            Audio.PlayOneShot(PickupSFX, 0.5f);
+            Damage(-2);
         }
     }
 
